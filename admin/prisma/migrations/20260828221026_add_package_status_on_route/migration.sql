@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "PackageStatus" ADD VALUE 'ON_ROUTE' AFTER 'RECEIVED';

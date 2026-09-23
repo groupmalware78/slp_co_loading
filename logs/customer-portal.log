@@ -1,0 +1,29 @@
+
+> customer-portal@0.1.0 dev
+> next dev -p 3001
+
+▲ Next.js 16.3.3 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://192.168.1.254:3001
+- Environments: .env
+✓ Ready in 461ms
+✓ Running next.config.ts took 105ms
+[manifest] scheduler started, checking every 30s
+[api-key] status poller started, checking every 5m
+
+ GET /login?callbackUrl=http%3A%2F%2Flocalhost%3A3001%2Fadmin%2Fsettings 200 in 3.7s (next.js: 2.2s, proxy.ts: 3ms, application-code: 1524ms)
+ GET /api/branding/logo 200 in 1306ms (next.js: 308ms, application-code: 998ms)
+ GET /api/branding/favicon 200 in 1124ms (next.js: 481ms, application-code: 643ms)
+ GET /api/auth/session 200 in 1593ms (next.js: 1570ms, application-code: 23ms)
+ GET /api/auth/session 200 in 17ms (next.js: 6ms, application-code: 10ms)
+ GET /api/auth/session 200 in 16ms (next.js: 5ms, application-code: 11ms)
+ GET /api/auth/session 200 in 10ms (next.js: 4ms, application-code: 7ms)
+ GET /api/v1/tenant/resolve 404 in 719ms (next.js: 574ms, application-code: 145ms)
+ GET /login 200 in 44ms (next.js: 3ms, proxy.ts: 3ms, application-code: 38ms)
+ GET /api/auth/csrf 200 in 11ms (next.js: 6ms, application-code: 4ms)
+ POST /api/auth/callback/credentials 302 in 272ms (next.js: 1.7ms, application-code: 270ms)
+ GET /api/auth/session 200 in 5ms (next.js: 1.0ms, application-code: 4ms)
+ GET /admin/api-key 200 in 968ms (next.js: 235ms, proxy.ts: 15ms, application-code: 718ms)
+ POST /api/admin/api-key/rotate 200 in 126ms (next.js: 90ms, application-code: 36ms)
+ GET /packages 200 in 276ms (next.js: 120ms, proxy.ts: 7ms, application-code: 149ms)
+[?25h

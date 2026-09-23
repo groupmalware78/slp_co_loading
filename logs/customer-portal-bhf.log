@@ -1,0 +1,24 @@
+
+> customer-portal-bhf@0.1.0 dev
+> next dev -p 3002
+
+▲ Next.js 16.3.3 (Turbopack)
+- Local:         http://localhost:3002
+- Network:       http://192.168.1.254:3002
+- Environments: .env
+✓ Ready in 476ms
+✓ Running next.config.ts took 101ms
+○ Compiling proxy ...
+[manifest] scheduler started, checking every 30s
+[api-key] status poller started, checking every 5m
+
+ GET /login 200 in 2.6s (next.js: 2.1s, proxy.ts: 148ms, application-code: 368ms)
+ GET /api/branding/logo 200 in 770ms (next.js: 394ms, application-code: 376ms)
+ GET /api/branding/favicon 200 in 1179ms (next.js: 312ms, application-code: 867ms)
+ GET /api/auth/session 200 in 1595ms (next.js: 1575ms, application-code: 20ms)
+ GET /api/auth/session 200 in 11ms (next.js: 6ms, application-code: 5ms)
+ GET /api/auth/session 200 in 25ms (next.js: 3ms, application-code: 22ms)
+ GET /api/auth/session 200 in 9ms (next.js: 2ms, application-code: 6ms)
+  Reload env: .env
+ GET /login 200 in 171ms (next.js: 117ms, proxy.ts: 35ms, application-code: 20ms)
+[?25h

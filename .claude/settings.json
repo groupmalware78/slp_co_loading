@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsx -e ' *)",
+      "Bash(kill 29539)",
+      "Bash(kill 30975)",
+      "Bash(node -e \"console.log\\(require\\('crypto'\\).randomUUID\\(\\)\\)\")",
+      "Bash(mkdir -p /Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/src/app/api/my-shipments/\\\\[id\\\\]/invoice)",
+      "Bash(kill 32438 33017)",
+      "Bash(rm -rf .next)",
+      "Bash(nohup npm run dev)",
+      "Bash(sed -i '' \"s/'password123'/'Password#123'/\" \"/private/tmp/claude-501/-Users-deevexx-Documents-PROJECTS-freight-forwarder/d5b2b99f-4c69-4e5c-811c-74dc21742872/scratchpad/e2e-detail-page.js\")",
+      "Bash(NODE_PATH=/Users/deevexx/.npm/_npx/e41f203b7505f1fb/node_modules node \"/private/tmp/claude-501/-Users-deevexx-Documents-PROJECTS-freight-forwarder/d5b2b99f-4c69-4e5c-811c-74dc21742872/scratchpad/e2e-detail-page.js\")",
+      "Bash(curl -s -b /tmp/nonexistent-cookie \"http://localhost:3001/my-shipments/cmtejmdib00010b14eqrw9gw6\" -o /dev/null -w \"%{http_code}\\\\n\")",
+      "Bash(NODE_PATH=/Users/deevexx/.npm/_npx/e41f203b7505f1fb/node_modules node \"/private/tmp/claude-501/-Users-deevexx-Documents-PROJECTS-freight-forwarder/d5b2b99f-4c69-4e5c-811c-74dc21742872/scratchpad/e2e-detail-cost-check.js\")",
+      "Bash(NODE_PATH=/Users/deevexx/.npm/_npx/e41f203b7505f1fb/node_modules node \"/private/tmp/claude-501/-Users-deevexx-Documents-PROJECTS-freight-forwarder/d5b2b99f-4c69-4e5c-811c-74dc21742872/scratchpad/e2e-admin-invoice-view.js\")",
+      "Bash(NODE_PATH=/Users/deevexx/.npm/_npx/e41f203b7505f1fb/node_modules node \"/private/tmp/claude-501/-Users-deevexx-Documents-PROJECTS-freight-forwarder/d5b2b99f-4c69-4e5c-811c-74dc21742872/scratchpad/e2e-admin-invoice-view2.js\")",
+      "Bash(kill 35033)",
+      "Bash(kill 35943)",
+      "Bash(node -e ' *)",
+      "Bash(NODE_PATH=/Users/deevexx/.npm/_npx/e41f203b7505f1fb/node_modules node \"/private/tmp/claude-501/-Users-deevexx-Documents-PROJECTS-freight-forwarder/d5b2b99f-4c69-4e5c-811c-74dc21742872/scratchpad/e2e-settings-single-save.js\")",
+      "Bash(kill 36103)",
+      "Bash(xargs -r kill)",
+      "Bash(NODE_PATH=/Users/deevexx/.npm/_npx/e41f203b7505f1fb/node_modules node \"/private/tmp/claude-501/-Users-deevexx-Documents-PROJECTS-freight-forwarder/d5b2b99f-4c69-4e5c-811c-74dc21742872/scratchpad/e2e-customer-code.js\")"
+    ],
+    "additionalDirectories": [
+      "/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/src/app/api/my-shipments/[id]"
+    ]
+  }
+}

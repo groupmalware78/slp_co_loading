@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "PackageStatus" RENAME VALUE 'ON_ROUTE' TO 'SHIPPED';

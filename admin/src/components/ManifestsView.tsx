@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { Pager } from "./Pager";
+import { ManifestFilters, EMPTY_MANIFEST_FILTERS, type ManifestFilterValues } from "./ManifestFilters";
 
 interface ManifestRow {
   id: string;
@@ -10,7 +11,7 @@ interface ManifestRow {
   triggeredBy: string;
   invoiceAmount: number | null;
   invoiceGeneratedAt: string | null;
-  company: { id: string; name: string; code: string; perPackageRate: number };
+  company: { id: string; name: string; code: string };
 }
 
 interface Pagination {
@@ -23,23 +24,30 @@ interface Pagination {
 export function ManifestsView({
   initialManifests,
   initialPagination,
+  companies,
 }: {
   initialManifests: ManifestRow[];
   initialPagination: Pagination;
+  companies: { id: string; name: string }[];
 }) {
   const [manifests, setManifests] = useState(initialManifests);
   const [pagination, setPagination] = useState(initialPagination);
+  const [filters, setFilters] = useState<ManifestFilterValues>(EMPTY_MANIFEST_FILTERS);
   const [loading, setLoading] = useState(false);
   const [generatingId, setGeneratingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchPage = useCallback(
-    async (page: number) => {
+  const runQuery = useCallback(
+    async (page: number, nextFilters: ManifestFilterValues) => {
       setLoading(true);
       try {
         const params = new URLSearchParams();
         params.set("page", String(page));
         params.set("pageSize", String(initialPagination.pageSize));
+        if (nextFilters.companyId) params.set("companyId", nextFilters.companyId);
+        if (nextFilters.dateFrom) params.set("dateFrom", nextFilters.dateFrom);
+        if (nextFilters.dateTo) params.set("dateTo", nextFilters.dateTo);
+        if (nextFilters.invoiceGenerated) params.set("invoiceGenerated", nextFilters.invoiceGenerated);
         const res = await fetch(`/api/manifests?${params.toString()}`);
         if (!res.ok) return;
         const data = await res.json();
@@ -51,6 +59,13 @@ export function ManifestsView({
     },
     [initialPagination.pageSize]
   );
+
+  const fetchPage = useCallback((page: number) => runQuery(page, filters), [runQuery, filters]);
+
+  function handleFiltersChange(next: ManifestFilterValues) {
+    setFilters(next);
+    runQuery(1, next);
+  }
 
   async function handleGenerateInvoice(manifest: ManifestRow) {
     setGeneratingId(manifest.id);
@@ -78,13 +93,19 @@ export function ManifestsView({
         </p>
       </div>
 
+      <ManifestFilters filters={filters} companies={companies} onChange={handleFiltersChange} />
+
       {error && (
         <div className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
       )}
 
       {manifests.length === 0 ? (
         <div className="rounded-xl border border-dashed border-slate-300 bg-white py-16 text-center">
-          <p className="text-sm text-slate-500">No manifests generated yet.</p>
+          <p className="text-sm text-slate-500">
+            {Object.values(filters).some((v) => v !== "")
+              ? "No manifests match these filters."
+              : "No manifests generated yet."}
+          </p>
         </div>
       ) : (
         <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">

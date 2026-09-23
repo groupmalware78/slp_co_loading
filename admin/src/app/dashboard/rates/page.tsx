@@ -10,10 +10,10 @@ export default async function RatesPage() {
     redirect("/dashboard");
   }
 
-  const companies = await prisma.company.findMany({
-    orderBy: { name: "asc" },
-    select: { id: true, name: true, code: true, perPackageRate: true },
+  const settings = await prisma.platformSettings.findUnique({
+    where: { id: "platform" },
+    select: { perPackageRate: true },
   });
 
-  return <RatesView initialCompanies={companies} />;
+  return <RatesView initialRate={settings?.perPackageRate ?? 0} />;
 }

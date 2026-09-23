@@ -1,36 +1,50 @@
 Service-Provider app: onboards freight-forwarder companies and issues their
-API keys, manages staff accounts, and hosts an audit log and cross-company
-reports. ADMIN role only — package logging (the one thing
-`WAREHOUSE_ATTENDANT` accounts do) lives in `../warehouse` instead; this app
-only provisions those accounts, it doesn't have a screen for using them.
+API keys, manages staff accounts, hosts an audit log and cross-company
+reports, and (merged in from a formerly-standalone Warehouse app) logs and
+edits packages received at the warehouse. Companies/Users/Audit
+Log/Reports/Manifests/Rates/Banking are `ADMIN`-only; Packages is open to
+`ADMIN`, `SCANNER`, `LOGGER`, and `CSR` alike, each with different
+capabilities within that one section — see `src/lib/rbac.ts` for the
+per-section permission checks.
 
 This is the schema owner for the whole system — it owns the full Prisma
-schema (including tables only `../api`, `../warehouse`, and every
-`../customer-portal` deployment use, like portal users/settings/rates/
-manifests) and is the sole app allowed to run `prisma migrate`/`db push`
-against the shared database. `../api` and `../warehouse` each keep their
-own mirrored copy of the schema (same physical tables, generated but never
-migrated) — see the root README's "Adding a schema change".
+schema (including tables only `../api` and every `../customer-portal`
+deployment use, like portal users/settings/rates/manifests) and is the
+sole app allowed to run `prisma migrate`/`db push` against the shared
+database. `../api` keeps its own mirrored copy of the schema (same
+physical tables, generated but never migrated) — see the root README's
+"Adding a schema change".
 
 ## Stack
 
 - Next.js 16 (App Router) + TypeScript
 - Tailwind CSS 4
-- PostgreSQL via Prisma 6 — one of three apps in the repo with a database
-  connection (`../api`, `../warehouse` are the other two)
+- PostgreSQL via Prisma 6 — one of two apps in the repo with a database
+  connection (`../api` is the other)
 - Auth.js (NextAuth v5, Credentials provider, JWT sessions)
 
 ## Roles
 
-| Role | Companies | Users | Audit log | Reports |
-| --- | --- | --- | --- | --- |
-| `ADMIN` | ✅ | ✅ | ✅ | ✅ |
-| `WAREHOUSE_ATTENDANT` | ❌ | ❌ | ❌ | ❌ |
+Package permissions within the Packages section are further split — see
+`CAN_LOG_PACKAGES`/`CAN_EDIT_PACKAGES`/`CAN_DELETE_PACKAGES`/
+`CAN_VIEW_PACKAGES` in `src/lib/rbac.ts`:
 
-`WAREHOUSE_ATTENDANT` accounts exist in the shared `users` table (created
-here, under Users) but have nothing to do in this app — every page under
-`/dashboard` is ADMIN-only. They log into `../warehouse` instead, with the
-same credentials.
+| Role | Companies/Users/Audit/Reports/Manifests/Rates/Banking | Packages: view | Packages: log new (scan) | Packages: edit (locate by scan) | Packages: delete |
+| --- | --- | --- | --- | --- | --- |
+| `ADMIN` | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `SCANNER` | ❌ | ✅ | ✅ | ❌ | ❌ |
+| `LOGGER` | ❌ | ✅ | ❌ | ✅ | ❌ |
+| `CSR` | ❌ | ✅ | ❌ | ❌ | ❌ |
+
+`SCANNER`/`LOGGER`/`CSR` accounts are created here under Users, and sign
+into this same app — landing on `/dashboard/packages` (their only
+reachable section; every other `/dashboard/**` page redirects them away).
+A logger locates a package to edit by scanning its barcode
+(`components/LocatePackageModal.tsx`) rather than browsing the list — the
+existing `components/LogPackageModal.tsx` (scan-to-create) stays
+scanner-only. See `src/lib/rbac.ts`'s `homeRouteForRole()` and each page's
+own `canXxx()`
+check for how that's enforced.
 
 ## Setup
 
@@ -94,18 +108,24 @@ response for `CompaniesView.tsx` to display instead.
 - `prisma/schema.prisma` — owns the schema for the whole system: `User`,
   `Package`, and `Company` (this app's own concerns) alongside `PortalUser`,
   `PortalSettings`, `ShippingRate`, `Location`, `Manifest`, `FaqItem`,
-  `AuthorizedPickupPerson`, and `DeliveryAssignment` (used by `../api`,
-  `../warehouse`, and every `../customer-portal` deployment, but still
-  migrated and owned here).
+  `AuthorizedPickupPerson`, and `DeliveryAssignment` (used by `../api` and
+  every `../customer-portal` deployment, but still migrated and owned
+  here).
 - `src/lib/auth.ts` / `src/lib/auth.config.ts` — Auth.js config, split so
   `src/proxy.ts` (route protection) can run without Node-only dependencies.
-  Every `/dashboard/**` route requires `role === "ADMIN"`.
-- `src/components/Sidebar.tsx` — left-hand nav (Companies, Users, Audit
-  Log, Reports).
+  Any authenticated user may enter `/dashboard/**`; which sections they can
+  actually reach is enforced per-page via `src/lib/rbac.ts`, not here.
+- `src/components/Sidebar.tsx` — left-hand nav (Packages, Companies, Users,
+  Audit Log, Reports, Manifests, Rates, Banking), each entry filtered by
+  its own `rbac.ts` check.
 - `src/app/api/companies/**` — admin-only freight forwarder company
   directory; see "Companies" above.
-- `src/app/api/users/**` — admin-only staff user management (`ADMIN` and
-  `WAREHOUSE_ATTENDANT` accounts, shared with `../warehouse`).
+- `src/app/api/users/**` — admin-only staff user management (`ADMIN`,
+  `SCANNER`, `LOGGER`, and `CSR` accounts).
+- `src/app/api/packages/**`, `src/app/api/customers/**` — package logging/
+  editing and the customer-picker directory backing it (merged in from the
+  formerly-standalone Warehouse app); which of log/edit/view each caller
+  gets depends on their role, see the "Roles" table above.
 - `src/app/dashboard/reports/**` — cross-company financial/customers/
   packages reports (system-wide, distinct from each `customer-portal`
   instance's own per-tenant reports).

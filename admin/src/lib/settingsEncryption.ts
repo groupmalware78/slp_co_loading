@@ -1,6 +1,6 @@
 import crypto from "crypto";
 
-// Mirrored verbatim in ../../admin/src/lib/settingsEncryption.ts — no
+// Mirrored verbatim in ../../api/src/lib/settingsEncryption.ts — no
 // shared package exists in this repo, so keep the two copies identical by
 // hand (same convention as apiKeyHash.ts/email.ts elsewhere).
 //

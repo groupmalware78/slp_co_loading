@@ -9,7 +9,14 @@ datasource db {
 
 enum Role {
   ADMIN
-  WAREHOUSE_ATTENDANT
+  // Barcode-scan-to-log new packages only — no edit/delete. See
+  // ../src/lib/rbac.ts for the full permission split.
+  SCANNER
+  // Edits already-logged packages, located by scanning a barcode rather
+  // than browsing (see LocatePackageModal.tsx) — no log/delete.
+  LOGGER
+  // Read-only.
+  CSR
 }
 
 enum PackageStatus {
@@ -108,7 +115,7 @@ model User {
   name         String
   email        String   @unique
   passwordHash String
-  role         Role     @default(WAREHOUSE_ATTENDANT)
+  role         Role     @default(SCANNER)
   active       Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -138,27 +145,51 @@ model AuditLog {
   @@map("audit_logs")
 }
 
-// The Service-Provider platform's own info — a singleton, fixed id, never
-// company-scoped (unlike PortalSettings' per-tenant banking fields, or
-// Company itself). Printed on the platform's own manifest billing invoice
-// (see /dashboard/manifests' "Generate invoice" and lib/manifestInvoicePdf.ts)
-// — distinct from each tenant's own customer-facing invoice, which uses
-// PortalSettings' banking fields instead.
+// The Service-Provider platform's own settings — a singleton, fixed id,
+// never company-scoped (unlike PortalSettings' per-tenant banking fields,
+// or Company itself). Banking info itself lives in PlatformBankAccount
+// below (many allowed); this row now only holds the invoice due-date
+// term.
 model PlatformSettings {
-  id                String @id @default("platform")
-  bankName          String?
-  bankAccountName   String?
-  bankAccountNumber String?
-  bankRoutingNumber String?
-  bankBranch        String?
+  id             String   @id @default("platform")
+  // The Service-Provider platform's own per-package billing rate,
+  // applied to every company alike (no longer per-company). Used by
+  // /dashboard/manifests' "Generate invoice" action:
+  // amount = manifest.packageCount * perPackageRate.
+  perPackageRate Float    @default(0)
   // Net payment terms applied to every manifest invoice generated while
   // this is set (e.g. 30 = "Net 30"); null = no due date shown on the
   // invoice. Locked into Manifest.invoiceDueDate at generation time, not
   // recomputed retroactively if this later changes.
-  paymentDueDays    Int?
-  updatedAt         DateTime @updatedAt
+  paymentDueDays Int?
+  updatedAt      DateTime @updatedAt
 
   @@map("platform_settings")
+}
+
+// The platform's own bank accounts — multiple allowed (e.g. one per
+// currency, or as accounts change over time). Every ACTIVE account is
+// printed on the manifest billing invoice (see /dashboard/manifests'
+// "Generate invoice" and lib/manifestInvoicePdf.ts) — distinct from each
+// tenant's own customer-facing invoice, which uses PortalSettings'
+// banking fields instead. Inactive accounts are kept for record but
+// omitted from new invoices.
+model PlatformBankAccount {
+  id            String   @id @default(cuid())
+  // Optional short name shown on the invoice to distinguish accounts when
+  // more than one is active (e.g. "USD account", "JMD account").
+  label         String?
+  bankName      String
+  accountName   String
+  accountNumber String
+  routingNumber String?
+  branch        String?
+  active        Boolean  @default(true)
+  sortOrder     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("platform_bank_accounts")
 }
 
 model Company {
@@ -200,12 +231,10 @@ model Company {
   contactEmail String?  @unique
   contactPhone String?
   address      String?
+  // Tax Registration Number — the only optional field on the "Add
+  // company" form; every other field there is required.
+  trn          String?
   active       Boolean  @default(true)
-  // The Service-Provider platform's own billing rate for this company —
-  // distinct from ShippingRate (what this company charges its own
-  // customers). Used by /dashboard/manifests' "Generate invoice" action:
-  // amount = manifest.packageCount * perPackageRate.
-  perPackageRate Float    @default(0)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -639,8 +668,8 @@ model Manifest {
   triggeredBy  String   @default("MANUAL")
 
   // The Service-Provider platform's own billing invoice for this manifest
-  // (packageCount * Company.perPackageRate at generation time — see
-  // /dashboard/manifests) — distinct from Package.generatedInvoicePdf,
+  // (packageCount * PlatformSettings.perPackageRate at generation time —
+  // see /dashboard/manifests) — distinct from Package.generatedInvoicePdf,
   // which is the freight forwarder billing its own customer. Null until
   // generated; regenerating overwrites all five fields together.
   invoiceAmount      Float?

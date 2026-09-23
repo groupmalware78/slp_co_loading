@@ -10,17 +10,21 @@ export default async function BankingPage() {
     redirect("/dashboard");
   }
 
-  const settings = await prisma.platformSettings.findUnique({ where: { id: "platform" } });
+  const [settings, bankAccounts] = await Promise.all([
+    prisma.platformSettings.findUnique({ where: { id: "platform" } }),
+    prisma.platformBankAccount.findMany({ orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }] }),
+  ]);
 
   return (
     <div className="space-y-4">
       <div>
         <h1 className="text-lg font-semibold text-slate-900">Banking</h1>
         <p className="text-sm text-slate-500">
-          This platform&apos;s own payment info, printed on manifest billing invoices.
+          This platform&apos;s own bank accounts and invoice terms. Every active account is
+          printed on manifest billing invoices.
         </p>
       </div>
-      <BankingSettingsForm initial={settings} />
+      <BankingSettingsForm initialSettings={settings} initialBankAccounts={JSON.parse(JSON.stringify(bankAccounts))} />
     </div>
   );
 }

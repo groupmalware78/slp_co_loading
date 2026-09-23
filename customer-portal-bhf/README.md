@@ -51,7 +51,7 @@ read-only" is now just a split in which parts of `../api`'s REST surface
 (`src/app/api/v1/**` there, called here through `src/lib/apiClient.ts`)
 each feature calls:
 
-1. **Data `../warehouse`'s UI also manages** — `Package`, `Company`,
+1. **Data `../admin`'s Packages UI also manages** — `Package`, `Company`,
    `Customer`. Generating a manifest bulk-updates `Package.status` from
    `RECEIVED` to `SHIPPED` on the packages it captures (server-side, inside
    `../api`'s own `generateManifest()`); `/packages` has a role-scoped edit
@@ -60,7 +60,8 @@ each feature calls:
    `editablePackageFields` in `lib/rbac.ts` — and `/signup` has `../api`
    create a matching `Customer` row (scoped to this tenant) if none already
    exists for that email, so a self-registered customer immediately shows
-   up in the Warehouse/CSR customer directory and can be assigned packages.
+   up in admin's Packages/CSR customer directory and can be assigned
+   packages.
 2. **Data only this app's UI manages** — portal user accounts (auth, all 4
    roles; also the target of one write going the *other* direction — see
    "Registering a new freight forwarder" below, where `../admin` creates
@@ -74,7 +75,7 @@ each feature calls:
    triggered), FAQs (admin-managed Q&A pairs — active ones render as an
    accordion on the public homepage), and delivery assignments (driver
    assignments — separate from `Package.status`, which otherwise stays
-   Warehouse-owned).
+   admin-Packages-owned).
 
 Every one of those `../api` routes scopes its query by companyId,
 resolved from the `x-api-key` header each call carries — this is what

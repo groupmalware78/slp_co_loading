@@ -12,7 +12,7 @@ export default async function ManifestsPage() {
     redirect("/dashboard");
   }
 
-  const [manifests, total] = await Promise.all([
+  const [manifests, total, companies] = await Promise.all([
     prisma.manifest.findMany({
       orderBy: { generatedAt: "desc" },
       take: PAGE_SIZE,
@@ -23,10 +23,11 @@ export default async function ManifestsPage() {
         triggeredBy: true,
         invoiceAmount: true,
         invoiceGeneratedAt: true,
-        company: { select: { id: true, name: true, code: true, perPackageRate: true } },
+        company: { select: { id: true, name: true, code: true } },
       },
     }),
     prisma.manifest.count(),
+    prisma.company.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } }),
   ]);
 
   return (
@@ -38,6 +39,7 @@ export default async function ManifestsPage() {
         total,
         totalPages: Math.max(Math.ceil(total / PAGE_SIZE), 1),
       }}
+      companies={companies}
     />
   );
 }

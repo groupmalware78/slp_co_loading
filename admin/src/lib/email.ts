@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { sendTenantEmail } from "./tenantEmailSender";
 
 interface RegistrationEmailInput {
   to: string;
@@ -113,6 +114,7 @@ const STATUS_EMAIL_COPY: Record<PackageStatusEmailStatus, { subject: string; bod
 };
 
 interface PackageStatusEmailInput {
+  companyId: string;
   to: string;
   customerName: string;
   companyName: string;
@@ -122,29 +124,17 @@ interface PackageStatusEmailInput {
   attachment?: { filename: string; content: Buffer } | null;
 }
 
-// Mirrors ../customer-portal's own lib/email.ts — see the identical
-// comment there on why the two apps duplicate this rather than sharing a
-// package (separate deployments, no shared code boundary today).
+// Composes the subject/HTML here, delegates actual delivery (provider
+// selection: this tenant's own Resend/SMTP config, or the platform
+// default) to tenantEmailSender.ts. Mirrors ../api's own copy of this
+// function (merged in from the standalone Warehouse app) — no shared
+// package exists in this repo, so keep the duplicates identical by hand.
 export async function sendPackageStatusEmail(
   input: PackageStatusEmailInput
 ): Promise<{ sent: boolean }> {
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
   const copy = STATUS_EMAIL_COPY[input.status];
 
-  if (!apiKey) {
-    console.log(
-      `[email] RESEND_API_KEY not set — would have emailed ${input.to}:\n` +
-        `  ${copy.subject} (tracking ${input.trackingNumber})` +
-        (input.attachment ? `\n  Attachment: ${input.attachment.filename}` : "")
-    );
-    return { sent: false };
-  }
-
-  const resend = new Resend(apiKey);
-
-  await resend.emails.send({
-    from,
+  return sendTenantEmail(input.companyId, {
     to: input.to,
     subject: `${copy.subject} — ${input.companyName}`,
     html: `
@@ -155,10 +145,6 @@ export async function sendPackageStatusEmail(
         <p style="margin: 4px 0 0; color: #64748b;">Tracking number: ${input.trackingNumber}</p>
       </div>
     `,
-    ...(input.attachment
-      ? { attachments: [{ filename: input.attachment.filename, content: input.attachment.content }] }
-      : {}),
+    ...(input.attachment ? { attachments: [input.attachment] } : {}),
   });
-
-  return { sent: true };
 }

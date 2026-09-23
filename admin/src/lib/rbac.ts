@@ -1,16 +1,16 @@
 import { Role } from "@prisma/client";
 
-// This app (Service-Provider) is now effectively ADMIN-only — package
-// logging (ADMIN + WAREHOUSE_ATTENDANT) moved to the Warehouse app. The
-// Role enum keeps WAREHOUSE_ATTENDANT (the shared `users` table's own
-// accounts, provisioned here, used to log into Warehouse) even though
-// nothing in this app itself checks for it.
+// Packages (merged in from the standalone Warehouse app — see
+// CAN_LOG_PACKAGES etc. below) is the one section SCANNER/LOGGER/CSR
+// accounts can reach; everything else here stays ADMIN-only.
 export const ROLE_LABELS: Record<Role, string> = {
   ADMIN: "Administrator",
-  WAREHOUSE_ATTENDANT: "Warehouse Attendant",
+  SCANNER: "Scanner",
+  LOGGER: "Logger",
+  CSR: "Customer Service Rep",
 };
 
-export const ROLES: Role[] = ["ADMIN", "WAREHOUSE_ATTENDANT"];
+export const ROLES: Role[] = ["ADMIN", "SCANNER", "LOGGER", "CSR"];
 
 // Roles allowed to manage users (invite/edit roles).
 export const CAN_MANAGE_USERS: Role[] = ["ADMIN"];
@@ -34,6 +34,25 @@ export const CAN_MANAGE_RATES: Role[] = ["ADMIN"];
 // Roles allowed to manage the platform's own banking info and invoice
 // due-date terms (see /dashboard/banking).
 export const CAN_MANAGE_BANKING: Role[] = ["ADMIN"];
+
+// --- Merged in from the standalone Warehouse app's own rbac.ts, later
+// split from one combined WAREHOUSE_ATTENDANT role into SCANNER/LOGGER/CSR ---
+
+// Roles allowed to log (add) packages received at the warehouse, via
+// barcode scan — scanners may only add, not edit or delete.
+export const CAN_LOG_PACKAGES: Role[] = ["ADMIN", "SCANNER"];
+
+// Roles allowed to delete package records.
+export const CAN_DELETE_PACKAGES: Role[] = ["ADMIN"];
+
+// Roles allowed to edit an already-logged package's details — loggers
+// locate the package by scanning its barcode (see LocatePackageModal.tsx)
+// rather than browsing, then edit; they may not log new packages.
+export const CAN_EDIT_PACKAGES: Role[] = ["ADMIN", "LOGGER"];
+
+// Roles allowed to see the packages list at all — includes CSR, which has
+// neither log nor edit access (read-only).
+export const CAN_VIEW_PACKAGES: Role[] = ["ADMIN", "SCANNER", "LOGGER", "CSR"];
 
 export function canManageUsers(role: Role | undefined | null): boolean {
   return !!role && CAN_MANAGE_USERS.includes(role);
@@ -61,4 +80,39 @@ export function canManageRates(role: Role | undefined | null): boolean {
 
 export function canManageBanking(role: Role | undefined | null): boolean {
   return !!role && CAN_MANAGE_BANKING.includes(role);
+}
+
+export function canLogPackages(role: Role | undefined | null): boolean {
+  return !!role && CAN_LOG_PACKAGES.includes(role);
+}
+
+export function canDeletePackages(role: Role | undefined | null): boolean {
+  return !!role && CAN_DELETE_PACKAGES.includes(role);
+}
+
+export function canEditPackages(role: Role | undefined | null): boolean {
+  return !!role && CAN_EDIT_PACKAGES.includes(role);
+}
+
+export function canViewPackages(role: Role | undefined | null): boolean {
+  return !!role && CAN_VIEW_PACKAGES.includes(role);
+}
+
+// Roles allowed to read the customers/companies directory. Tied to
+// canViewPackages, not canLog/canEdit — PackageEditModal fetches both
+// directories unconditionally (to resolve the assigned customer/company's
+// display name) even when rendering read-only for a CSR.
+export function canViewDirectories(role: Role | undefined | null): boolean {
+  return canViewPackages(role);
+}
+
+// Where a freshly-signed-in user lands — ADMIN sees the full app, every
+// other role only ever has Packages to go to.
+export function homeRouteForRole(role: Role): string {
+  switch (role) {
+    case "ADMIN":
+      return "/dashboard/companies";
+    default:
+      return "/dashboard/packages";
+  }
 }

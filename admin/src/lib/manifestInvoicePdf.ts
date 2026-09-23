@@ -3,7 +3,7 @@ import PDFDocument from "pdfkit";
 // The Service-Provider platform's own billing invoice to a freight
 // forwarder company for one manifest — distinct from ../api's
 // invoicePdf.ts, which bills that company's own customer for a package.
-// Amount is always packageCount * company.perPackageRate at generation
+// Amount is always packageCount * PlatformSettings.perPackageRate at generation
 // time (see the comment on Manifest.invoiceAmount in schema.prisma).
 export interface ManifestInvoicePdfInput {
   manifest: {
@@ -20,16 +20,18 @@ export interface ManifestInvoicePdfInput {
   };
   rate: number;
   amount: number;
-  // The platform's own banking info — see PlatformSettings. Omitted (or
-  // every field null) means no "Payment information" section is printed,
-  // same convention as api/'s own invoicePdf.ts.
-  platformSettings?: {
-    bankName: string | null;
-    bankAccountName: string | null;
-    bankAccountNumber: string | null;
-    bankRoutingNumber: string | null;
-    bankBranch: string | null;
-  } | null;
+  // The platform's own bank accounts — see PlatformBankAccount. Every
+  // entry passed in is printed (callers should filter to `active` ones);
+  // an empty/omitted array means no "Payment information" section is
+  // printed, same convention as api/'s own invoicePdf.ts.
+  bankAccounts?: {
+    label: string | null;
+    bankName: string;
+    accountName: string;
+    accountNumber: string;
+    routingNumber: string | null;
+    branch: string | null;
+  }[];
   // Locked in at generation time from PlatformSettings.paymentDueDays —
   // null means no due-date line is printed.
   dueDate?: Date | null;
@@ -40,7 +42,7 @@ function money(n: number): string {
 }
 
 export async function generateManifestInvoicePdf(input: ManifestInvoicePdfInput): Promise<Buffer> {
-  const { manifest, company, rate, amount, platformSettings, dueDate } = input;
+  const { manifest, company, rate, amount, bankAccounts, dueDate } = input;
 
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({ size: "LETTER", margin: 50 });
@@ -98,21 +100,20 @@ export async function generateManifestInvoicePdf(input: ManifestInvoicePdfInput)
     doc.text(`${manifest.packageCount} package(s) × ${money(rate)}/package`, 50);
     doc.fillColor("#000000");
 
-    const hasBankInfo =
-      platformSettings &&
-      (platformSettings.bankName ||
-        platformSettings.bankAccountName ||
-        platformSettings.bankAccountNumber ||
-        platformSettings.bankRoutingNumber);
-    if (hasBankInfo && platformSettings) {
+    if (bankAccounts && bankAccounts.length > 0) {
       doc.moveDown(1.5);
       doc.font("Helvetica-Bold").fontSize(10).fillColor("#000000").text("Payment information");
-      doc.font("Helvetica").fontSize(10).fillColor("#333333");
-      if (platformSettings.bankName) doc.text(`Bank: ${platformSettings.bankName}`);
-      if (platformSettings.bankAccountName) doc.text(`Account name: ${platformSettings.bankAccountName}`);
-      if (platformSettings.bankAccountNumber) doc.text(`Account number: ${platformSettings.bankAccountNumber}`);
-      if (platformSettings.bankRoutingNumber) doc.text(`Routing number: ${platformSettings.bankRoutingNumber}`);
-      if (platformSettings.bankBranch) doc.text(`Branch: ${platformSettings.bankBranch}`);
+      for (const account of bankAccounts) {
+        doc.moveDown(0.5);
+        doc.font("Helvetica-Bold").fontSize(9).fillColor("#000000");
+        doc.text(account.label || account.bankName);
+        doc.font("Helvetica").fontSize(9).fillColor("#333333");
+        doc.text(`Bank: ${account.bankName}`);
+        doc.text(`Account name: ${account.accountName}`);
+        doc.text(`Account number: ${account.accountNumber}`);
+        if (account.routingNumber) doc.text(`Routing number: ${account.routingNumber}`);
+        if (account.branch) doc.text(`Branch: ${account.branch}`);
+      }
       doc.fillColor("#000000");
     }
 

@@ -6,7 +6,7 @@ import { canManageUsers } from "@/lib/rbac";
 import { recordAudit } from "@/lib/audit";
 
 const updateUserSchema = z.object({
-  role: z.enum(["ADMIN", "WAREHOUSE_ATTENDANT"]).optional(),
+  role: z.enum(["ADMIN", "SCANNER", "LOGGER", "CSR"]).optional(),
   active: z.boolean().optional(),
 });
 

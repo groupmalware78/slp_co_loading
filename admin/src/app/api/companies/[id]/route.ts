@@ -25,7 +25,7 @@ export async function PATCH(
     );
   }
 
-  const { name, contactName, contactEmail, contactPhone, address, active } = parsed.data;
+  const { name, contactName, contactEmail, contactPhone, address, trn, active } = parsed.data;
 
   const [nameConflict, emailConflict] = await Promise.all([
     prisma.company.findFirst({ where: { name, NOT: { id } } }),
@@ -54,7 +54,8 @@ export async function PATCH(
         contactName,
         contactEmail,
         contactPhone,
-        address: address || null,
+        address,
+        trn: trn || null,
         active: active ?? true,
       },
       // Explicit select — apiKeyHash/apiKeyPreviousHash/apiKeyWebhookSecret
@@ -74,8 +75,8 @@ export async function PATCH(
         contactEmail: true,
         contactPhone: true,
         address: true,
+        trn: true,
         active: true,
-        perPackageRate: true,
         createdAt: true,
         updatedAt: true,
       },

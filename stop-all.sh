@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-# Stops everything run-all.sh starts: Service-Provider (admin), the three
-# customer-portal instances, api, warehouse, and the mobile app's
-# `flutter run` session. Only touches processes actually bound to these
-# ports / matching the flutter run command — never a blind `kill` by name.
+# Stops everything run-all.sh starts: Service-Provider (admin — also
+# covers warehouse package logging/editing, merged into this app), the
+# three customer-portal instances, api, and the mobile app's `flutter
+# run` session. Only touches processes actually bound to these ports /
+# matching the flutter run command — never a blind `kill` by name.
 
 set -uo pipefail
 
-PORTS=(3000 3001 3002 3003 3010 3020)
+PORTS=(3000 3001 3002 3003 3010)
 
 is_next_process() {
   ps -p "$1" -o command= 2>/dev/null | grep -qE "next-server|next dev"

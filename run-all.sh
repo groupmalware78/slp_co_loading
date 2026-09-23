@@ -1,26 +1,27 @@
 #!/usr/bin/env bash
 # Starts every app in this repo for local development: Service-Provider
-# (admin), Warehouse, api, all three customer-portal instances, and the
-# Flutter mobile app on whatever iOS/Android targets are available. Safe
-# to re-run — anything already listening on its port (or an already-
-# running `flutter run`) is left alone instead of being duplicated.
+# (admin — also covers warehouse package logging/editing, merged into
+# this app), api, all three customer-portal instances, and the Flutter
+# mobile app on whatever iOS/Android targets are available. Safe to
+# re-run — anything already listening on its port (or an already-running
+# `flutter run`) is left alone instead of being duplicated.
 #
 # No monorepo tooling — each app below has its own package.json,
 # node_modules, and lock file, and needs its own `npm install` (and, for
-# admin/warehouse/api, `npm run db:generate`) on a fresh clone or after
-# pulling package.json changes:
-#   for d in admin warehouse api customer-portal customer-portal-bhf customer-portal-ids; do
+# admin/api, `npm run db:generate`) on a fresh clone or after pulling
+# package.json changes:
+#   for d in admin api customer-portal customer-portal-bhf customer-portal-ids; do
 #     (cd "$d" && npm install)
 #   done
 #
-# Only admin, warehouse, and api connect to Postgres directly (each with
-# its own Prisma schema against the same database — admin is the sole
-# migration authority, the other two mirror it, see the root README).
-# The three customer-portal instances and the mobile app have no database
-# of their own; they call api/'s REST endpoints instead (plain fetch(),
-# no shared client library), so api/ needs to already be up and reachable
-# at each instance's ADMIN_API_URL before the others are useful — though
-# this script starts all of them regardless of order.
+# Only admin and api connect to Postgres directly (each with its own
+# Prisma schema against the same database — admin is the sole migration
+# authority, api mirrors it, see the root README). The three
+# customer-portal instances and the mobile app have no database of their
+# own; they call api/'s REST endpoints instead (plain fetch(), no shared
+# client library), so api/ needs to already be up and reachable at each
+# instance's ADMIN_API_URL before the others are useful — though this
+# script starts all of them regardless of order.
 #
 # Logs land in logs/<app>.log. Use ./stop-all.sh to tear everything down.
 
@@ -36,7 +37,6 @@ NEXT_APPS=(
   "customer-portal-bhf:customer-portal-bhf:3002"
   "customer-portal-ids:customer-portal-ids:3003"
   "api:api:3010"
-  "warehouse:warehouse:3020"
 )
 
 port_listener_pid() {

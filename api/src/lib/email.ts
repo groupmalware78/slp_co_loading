@@ -126,7 +126,7 @@ interface PackageStatusEmailInput {
 
 // Composes the subject/HTML here, delegates actual delivery (provider
 // selection: this tenant's own Resend/SMTP config, or the platform
-// default) to tenantEmailSender.ts. Mirrors ../warehouse's own copy of
+// default) to tenantEmailSender.ts. Mirrors ../admin's own copy of
 // this function — no shared package exists in this repo, so keep the two
 // duplicates identical by hand.
 export async function sendPackageStatusEmail(

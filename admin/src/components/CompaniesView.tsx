@@ -23,6 +23,7 @@ interface CompanyRow {
   contactEmail: string | null;
   contactPhone: string | null;
   address: string | null;
+  trn: string | null;
   active: boolean;
   createdAt: string;
 }
@@ -32,6 +33,7 @@ const emptyForm = {
   contactName: "",
   contactEmail: "",
   address: "",
+  trn: "",
 };
 
 export function CompaniesView({ initialCompanies }: { initialCompanies: CompanyRow[] }) {
@@ -40,6 +42,10 @@ export function CompaniesView({ initialCompanies }: { initialCompanies: CompanyR
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm);
+  // Separate from `form` — only ever sent on create (the code is
+  // immutable once a company exists, since it's already embedded in that
+  // company's customer codes, API key emails, invoice filenames, etc.).
+  const [code, setCode] = useState("");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -68,6 +74,7 @@ export function CompaniesView({ initialCompanies }: { initialCompanies: CompanyR
   function openCreateForm() {
     setEditingId(null);
     setForm(emptyForm);
+    setCode("");
     setPhone("");
     setError(null);
     setShowForm(true);
@@ -80,6 +87,7 @@ export function CompaniesView({ initialCompanies }: { initialCompanies: CompanyR
       contactName: company.contactName ?? "",
       contactEmail: company.contactEmail ?? "",
       address: company.address ?? "",
+      trn: company.trn ?? "",
     });
     setPhone(formatPhoneInput(company.contactPhone ?? ""));
     setError(null);
@@ -99,6 +107,7 @@ export function CompaniesView({ initialCompanies }: { initialCompanies: CompanyR
     const payload = {
       ...form,
       contactPhone: phone,
+      ...(editingId ? {} : { code }),
     };
 
     const res = await fetch(
@@ -325,6 +334,17 @@ export function CompaniesView({ initialCompanies }: { initialCompanies: CompanyR
               {error}
             </div>
           )}
+          {!editingId && (
+            <input
+              required
+              placeholder="Code (e.g. SLP)"
+              maxLength={10}
+              size={10}
+              value={code}
+              onChange={(e) => setCode(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ""))}
+              className={`w-32 ${inputClass} font-mono uppercase`}
+            />
+          )}
           <input
             required
             placeholder="Company name"
@@ -360,9 +380,16 @@ export function CompaniesView({ initialCompanies }: { initialCompanies: CompanyR
             />
           </div>
           <input
+            required
             placeholder="Address"
             value={form.address}
             onChange={(e) => updateField("address", e.target.value)}
+            className={inputClass}
+          />
+          <input
+            placeholder="TRN (optional)"
+            value={form.trn}
+            onChange={(e) => updateField("trn", e.target.value)}
             className={inputClass}
           />
           <button

@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 import { prisma } from "./prisma";
 import { decryptSecret } from "./settingsEncryption";
 
-// Mirrored verbatim in ../../admin/src/lib/tenantEmailSender.ts — no
+// Mirrored verbatim in ../../api/src/lib/tenantEmailSender.ts — no
 // shared package exists in this repo. This is the one place that actually
 // dispatches a tenant-facing email; api/'s own lib/email.ts (subject/HTML
 // composition) and customer-portal's (via POST /v1/tenant/email/send)

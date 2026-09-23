@@ -30,7 +30,7 @@ export function UsersView({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState<Role>("WAREHOUSE_ATTENDANT");
+  const [role, setRole] = useState<Role>("SCANNER");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -57,7 +57,7 @@ export function UsersView({
     setName("");
     setEmail("");
     setPassword("");
-    setRole("WAREHOUSE_ATTENDANT");
+    setRole("SCANNER");
   }
 
   async function handleRoleChange(id: string, newRole: Role) {

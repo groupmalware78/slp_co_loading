@@ -2,53 +2,31 @@ import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { canManageCompanies } from "@/lib/rbac";
+import { canManageCompanies, canViewDirectories } from "@/lib/rbac";
 import { companySchema } from "@/lib/companySchema";
 import { recordAudit } from "@/lib/audit";
 import { generateOtp } from "@/lib/otp";
 import { sendCompanyRegistrationEmail } from "@/lib/email";
 import { generateApiKey, hashApiKey, apiKeyPreview } from "@/lib/apiKeyHash";
 
-// Exactly 3 letters, no digits/separator: word initials when the name has
-// enough words (e.g. "Sky Box Courier" -> "SBC"), otherwise the leading
-// letters of the name itself (e.g. "Acme" -> "ACM"), padded with "X" if
-// the name is too short to supply three.
-function generateCompanyCode(name: string): string {
-  const words = name
-    .replace(/[^a-zA-Z\s]/g, "")
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean);
-
-  const base =
-    words.length >= 3
-      ? words.map((word) => word[0]).join("")
-      : words.join("");
-
-  return (base.toUpperCase().slice(0, 3) || "").padEnd(3, "X");
-}
-
-function randomCompanyCode(): string {
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  return Array.from({ length: 3 }, () => letters[Math.floor(Math.random() * letters.length)]).join("");
-}
-
-async function generateUniqueCompanyCode(name: string): Promise<string> {
-  const preferred = generateCompanyCode(name);
-  if (!(await prisma.company.findUnique({ where: { code: preferred } }))) {
-    return preferred;
+// Read-only company directory for the package edit/log forms' company
+// picker (PackageEditModal.tsx) — same gate as GET /api/customers. Never
+// existed before the Warehouse app was merged in, since admin's own
+// Companies page fetches directly via Prisma server-side rather than this
+// route; PackageEditModal's picker has been silently 405-ing since the
+// merge until this was added.
+export async function GET() {
+  const session = await auth();
+  if (!session?.user || !canViewDirectories(session.user.role)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  // The name-derived code is taken — fall back to a random 3-letter code
-  // (17,576 possibilities) instead of appending digits, since the code
-  // must stay exactly 3 letters.
-  for (let attempt = 0; attempt < 50; attempt++) {
-    const code = randomCompanyCode();
-    if (!(await prisma.company.findUnique({ where: { code } }))) {
-      return code;
-    }
-  }
-  throw new Error("Could not generate a unique 3-letter company code.");
+  const companies = await prisma.company.findMany({
+    orderBy: { name: "asc" },
+    select: { id: true, name: true, code: true },
+  });
+
+  return NextResponse.json({ companies });
 }
 
 export async function POST(request: NextRequest) {
@@ -66,11 +44,15 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const { name, contactName, contactEmail, contactPhone, address } = parsed.data;
+  const { code, name, contactName, contactEmail, contactPhone, address, trn } = parsed.data;
+  if (!code) {
+    return NextResponse.json({ error: "Company code is required." }, { status: 400 });
+  }
 
-  const [nameConflict, emailConflict] = await Promise.all([
+  const [nameConflict, emailConflict, codeConflict] = await Promise.all([
     prisma.company.findUnique({ where: { name } }),
     prisma.company.findUnique({ where: { contactEmail } }),
+    prisma.company.findUnique({ where: { code } }),
   ]);
   if (nameConflict) {
     return NextResponse.json(
@@ -84,8 +66,13 @@ export async function POST(request: NextRequest) {
       { status: 409 }
     );
   }
+  if (codeConflict) {
+    return NextResponse.json(
+      { error: "A company with that code already exists." },
+      { status: 409 }
+    );
+  }
 
-  const code = await generateUniqueCompanyCode(name);
   const apiKey = generateApiKey();
 
   const company = await prisma.company.create({
@@ -98,7 +85,8 @@ export async function POST(request: NextRequest) {
       contactName,
       contactEmail,
       contactPhone,
-      address: address || undefined,
+      address,
+      trn: trn || undefined,
     },
     // Explicit select — apiKeyHash must never reach the client (see the
     // identical select on the companies dashboard page's fetch).
@@ -116,8 +104,8 @@ export async function POST(request: NextRequest) {
       contactEmail: true,
       contactPhone: true,
       address: true,
+      trn: true,
       active: true,
-      perPackageRate: true,
       createdAt: true,
       updatedAt: true,
     },

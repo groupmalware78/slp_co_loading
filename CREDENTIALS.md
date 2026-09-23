@@ -7,21 +7,20 @@ Generated test data for local development. All `@example.test` addresses are fak
 
 ## Service-Provider (admin) app — http://localhost:3000
 
-ADMIN role only — Warehouse Attendant accounts below sign into the
-Warehouse app instead (same shared account, different app/URL).
+Administrators see every section (Companies/Users/Audit Log/Reports/
+Manifests/Rates/Banking/Packages). Scanner/Logger/CSR accounts sign into
+this same app/URL (the standalone Warehouse app was merged into admin)
+and only see Packages: Scanner can log new packages via barcode scan
+only; Logger can locate (scan) and edit already-logged packages only;
+CSR is read-only.
 
 | Name | Email | Password | Role |
 |---|---|---|---|
 | Yse Admin | admin@yseja.com | Password#123 | Administrator |
-
-## Warehouse app — http://localhost:3020
-
-| Name | Email | Password | Role |
-|---|---|---|---|
-| Yse Admin | admin@yseja.com | Password#123 | Administrator |
-| Devon Palmer | devon.palmer@yseja.com | WarehousePass#123 | Warehouse Attendant |
-| Latoya Bennett | latoya.bennett@yseja.com | WarehousePass#123 | Warehouse Attendant |
-| Ricardo Foster | ricardo.foster@yseja.com | WarehousePass#123 | Warehouse Attendant |
+| Devon Palmer | devon.palmer@yseja.com | WarehousePass#123 | Logger |
+| Latoya Bennett | latoya.bennett@yseja.com | WarehousePass#123 | Logger |
+| Ricardo Foster | ricardo.foster@yseja.com | WarehousePass#123 | Logger |
+| Kemar Grant | kemar.grant@yseja.com | WarehousePass#123 | Scanner |
 
 ---
 

@@ -7,8 +7,8 @@ import { recordAudit } from "@/lib/audit";
 import { generateManifestInvoicePdf } from "@/lib/manifestInvoicePdf";
 
 // Generates (or regenerates) this platform's own billing invoice for one
-// manifest: amount = manifest.packageCount * company.perPackageRate, at
-// today's rate — re-running this after the company's rate changes
+// manifest: amount = manifest.packageCount * PlatformSettings.perPackageRate,
+// at today's global rate — re-running this after the rate changes
 // recalculates and overwrites the stored invoice, it doesn't preserve the
 // original rate.
 export async function POST(
@@ -29,11 +29,18 @@ export async function POST(
     return NextResponse.json({ error: "Manifest not found." }, { status: 404 });
   }
 
-  const rate = manifest.company.perPackageRate;
-  const amount = manifest.packageCount * rate;
   const generatedAt = new Date();
 
-  const platformSettings = await prisma.platformSettings.findUnique({ where: { id: "platform" } });
+  const [platformSettings, bankAccounts] = await Promise.all([
+    prisma.platformSettings.findUnique({ where: { id: "platform" } }),
+    prisma.platformBankAccount.findMany({
+      where: { active: true },
+      orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
+      select: { label: true, bankName: true, accountName: true, accountNumber: true, routingNumber: true, branch: true },
+    }),
+  ]);
+  const rate = platformSettings?.perPackageRate ?? 0;
+  const amount = manifest.packageCount * rate;
   const dueDate =
     platformSettings?.paymentDueDays != null ? addDays(generatedAt, platformSettings.paymentDueDays) : null;
 
@@ -48,7 +55,7 @@ export async function POST(
     },
     rate,
     amount,
-    platformSettings,
+    bankAccounts,
     dueDate,
   });
   const fileName = `manifest-invoice-${manifest.company.code}-${manifest.id.slice(-8)}.pdf`;
@@ -70,7 +77,7 @@ export async function POST(
       invoiceAmount: true,
       invoiceGeneratedAt: true,
       invoiceDueDate: true,
-      company: { select: { id: true, name: true, code: true, perPackageRate: true } },
+      company: { select: { id: true, name: true, code: true } },
     },
   });
 

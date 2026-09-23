@@ -1,8 +1,8 @@
-Six independent apps sharing one Postgres database. No monorepo tooling —
+Five independent apps sharing one Postgres database. No monorepo tooling —
 each app has its own `package.json`, `node_modules`, and lock file, and is
-run and deployed separately. Three of them (`admin/`, `warehouse/`, `api/`)
-connect to Postgres directly, each with its own Prisma schema against the
-same database; the rest — the three `customer-portal` instances and the
+run and deployed separately. Two of them (`admin/`, `api/`) connect to
+Postgres directly, each with its own Prisma schema against the same
+database; the rest — the three `customer-portal` instances and the
 Flutter mobile app — have no database connection at all and talk to `api/`
 over plain REST instead.
 
@@ -22,15 +22,14 @@ over plain REST instead.
 
 - **[admin/](admin/)** — Service-Provider: onboards freight-forwarder
   companies and issues their API keys (`/dashboard/companies`), staff user
-  management, an audit log, and cross-company reports. ADMIN role only.
+  management, an audit log, cross-company reports, and (merged in from a
+  formerly-standalone Warehouse app) logging/editing packages received at
+  the warehouse. Companies/Users/Audit/Reports/Manifests/Rates/Banking are
+  `ADMIN`-only; Packages is open to `ADMIN`, `SCANNER`, `LOGGER`, and `CSR`
+  alike, each with different capabilities there (see `src/lib/rbac.ts`).
   **Owns the database schema and all migrations** — every table in the
-  system, including the ones only `customer-portal`/`api`/`warehouse` use.
-  Runs on port 3000.
-
-- **[warehouse/](warehouse/)** — logs and edits packages received at the
-  warehouse. `ADMIN`/`WAREHOUSE_ATTENDANT` roles only, the same staff
-  accounts `admin/` provisions. Own mirrored Prisma schema, same "never
-  migrate here" discipline as `api/`. Runs on port 3020.
+  system, including the ones only `customer-portal`/`api` use. Runs on
+  port 3000.
 
 - **[customer-portal/](customer-portal/)**, **[customer-portal-bhf/](customer-portal-bhf/)**,
   **[customer-portal-ids/](customer-portal-ids/)** — a self-service CMS +
@@ -53,26 +52,26 @@ over plain REST instead.
 ## Running everything locally
 
 No shared install step — each app below needs its own `npm install` (and,
-for `admin`/`warehouse`/`api`, `npm run db:generate`) on a fresh clone or
-after pulling `package.json` changes:
+for `admin`/`api`, `npm run db:generate`) on a fresh clone or after
+pulling `package.json` changes:
 
 ```bash
-for d in admin warehouse api customer-portal customer-portal-bhf customer-portal-ids; do
+for d in admin api customer-portal customer-portal-bhf customer-portal-ids; do
   (cd "$d" && npm install)
 done
 ```
 
-`admin`, `warehouse`, and `api` connect to Postgres — start it once
-(`docker compose up -d` from `admin/`, or your own local Postgres) and run
-`npm run db:generate` in each of those three. The three `customer-portal`
-instances instead need `ADMIN_API_URL` (pointing at `api/`) and their own
+`admin` and `api` connect to Postgres — start it once (`docker compose up
+-d` from `admin/`, or your own local Postgres) and run `npm run
+db:generate` in each of those two. The three `customer-portal` instances
+instead need `ADMIN_API_URL` (pointing at `api/`) and their own
 `TENANT_API_KEY` in `.env` — see each app's README.
 
 ```bash
-./run-all.sh   # starts admin, warehouse, api, all 3 customer-portal
-               # instances, and the mobile app on whatever iOS/Android
-               # targets are available. Safe to re-run — anything already
-               # running is left alone.
+./run-all.sh   # starts admin, api, all 3 customer-portal instances, and
+               # the mobile app on whatever iOS/Android targets are
+               # available. Safe to re-run — anything already running is
+               # left alone.
 ./stop-all.sh  # stops everything run-all.sh started
 ```
 
@@ -91,13 +90,13 @@ for branding/settings on pages like `/` and `/contact`).
 ## Adding a schema change
 
 - `admin/` is the sole schema owner — **every** table, including the ones
-  only `api`/`warehouse`/`customer-portal` read or write. A schema change
-  always goes through `admin/prisma/schema.prisma` and its migrations,
-  following the process in `admin/README.md`.
-- `api/prisma/schema.prisma` and `warehouse/prisma/schema.prisma` each
-  mirror the same physical tables — copy the change there too, but
-  **never** run `prisma migrate`/`db push` from either; they only ever
-  need `npx prisma generate` against the already-migrated database.
+  only `api`/`customer-portal` read or write. A schema change always goes
+  through `admin/prisma/schema.prisma` and its migrations, following the
+  process in `admin/README.md`.
+- `api/prisma/schema.prisma` mirrors the same physical tables — copy the
+  change there too, but **never** run `prisma migrate`/`db push` from it;
+  it only ever needs `npx prisma generate` against the already-migrated
+  database.
 - If the change adds or changes a field `customer-portal` or the mobile
   app needs, add/update the corresponding route in `api/src/app/api/v1/**`
   to expose it, then update `customer-portal/src/lib/apiTypes.ts` and

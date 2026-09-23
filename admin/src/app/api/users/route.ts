@@ -11,7 +11,7 @@ const createUserSchema = z.object({
   name: z.string().trim().min(1).max(100),
   email: z.string().trim().email(),
   password: passwordSchema,
-  role: z.enum(["ADMIN", "WAREHOUSE_ATTENDANT"]),
+  role: z.enum(["ADMIN", "SCANNER", "LOGGER", "CSR"]),
 });
 
 export async function GET() {

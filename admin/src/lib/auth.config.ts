@@ -14,11 +14,13 @@ export const authConfig = {
       const isLoggedIn = !!auth?.user;
       const isOnDashboard = request.nextUrl.pathname.startsWith("/dashboard");
 
-      // Every /dashboard/** page is ADMIN-only now — package
-      // logging/editing (the one section WAREHOUSE_ATTENDANT could reach)
-      // moved to the Warehouse app.
+      // Coarse gate: any authenticated user (any role)
+      // may enter /dashboard/**. Section-by-section restriction (Companies/
+      // Users/Audit/Reports/Manifests/Rates/Banking staying ADMIN-only,
+      // Packages open to both) is enforced per-page via lib/rbac.ts, not
+      // here — see dashboard/layout.tsx and each page's own RBAC check.
       if (isOnDashboard) {
-        return isLoggedIn && auth.user.role === "ADMIN";
+        return isLoggedIn;
       }
       if (isLoggedIn && request.nextUrl.pathname === "/login") {
         return Response.redirect(new URL("/dashboard", request.nextUrl));

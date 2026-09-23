@@ -8,10 +8,11 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-  // ADMIN-only now — WAREHOUSE_ATTENDANT accounts exist in the shared
-  // users table but have nothing to do in this app; they log into
-  // Warehouse instead.
-  if (!session?.user || session.user.role !== "ADMIN") redirect("/login");
+  // Any authenticated user (any role) may enter the
+  // dashboard shell — which sections they can actually reach is enforced
+  // per-page via lib/rbac.ts (see each page's own canXxx() redirect) and
+  // reflected in Sidebar's own filtered nav links.
+  if (!session?.user) redirect("/login");
 
   return (
     <div className="flex h-screen overflow-hidden bg-slate-50">

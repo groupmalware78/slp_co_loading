@@ -85,7 +85,8 @@
       "Bash(curl -s -b /tmp/admin_cookies2.txt -o /dev/null -w '%{http_code}\\\\n' http://localhost:3000/dashboard/banking)",
       "Bash(curl -s -b /tmp/admin_cookies2.txt -X PATCH http://localhost:3000/api/platform-settings -H 'Content-Type: application/json' -d '{ *)",
       "Bash(kill 78606)",
-      "Bash(PGPASSWORD=postgres psql -h localhost -U postgres -d freight_forwarder -c \"SELECT id, \\\\\"companyId\\\\\", \\\\\"packageCount\\\\\" FROM manifests LIMIT 3;\")"
+      "Bash(PGPASSWORD=postgres psql -h localhost -U postgres -d freight_forwarder -c \"SELECT id, \\\\\"companyId\\\\\", \\\\\"packageCount\\\\\" FROM manifests LIMIT 3;\")",
+      "Bash(PGPASSWORD=postgres psql -h localhost -U postgres -d freight_forwarder -c \"SELECT name, email, role FROM users;\")"
     ],
     "additionalDirectories": [
       "/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/src/app/api/profile/authorized-pickup"

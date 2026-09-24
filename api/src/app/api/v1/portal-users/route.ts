@@ -4,7 +4,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { requireInternalAuth, internalAuthErrorResponse } from "@/lib/internalAuth";
 
-const PORTAL_ROLE_VALUES = ["ADMIN", "CSR", "CUSTOMER", "DRIVER"] as const;
+const PORTAL_ROLE_VALUES = ["ADMIN", "CSR", "CUSTOMER", "DRIVER", "LOGGER"] as const;
 
 // Staff-facing list — customer-portal's /admin/users page (CSR/DRIVER
 // accounts it manages). ?role= filters to one role (e.g. excluding

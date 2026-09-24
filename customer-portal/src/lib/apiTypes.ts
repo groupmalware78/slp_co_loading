@@ -3,7 +3,7 @@
 // not derived from @prisma/client — this app has no Prisma/database
 // connection of its own at all.
 
-export type PortalRole = "ADMIN" | "CSR" | "CUSTOMER" | "DRIVER";
+export type PortalRole = "ADMIN" | "CSR" | "CUSTOMER" | "DRIVER" | "LOGGER";
 export type PackageStatus =
   | "PENDING"
   | "RECEIVED"

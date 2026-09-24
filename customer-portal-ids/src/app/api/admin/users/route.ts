@@ -11,7 +11,7 @@ const createStaffSchema = z.object({
   name: z.string().trim().min(1).max(150),
   email: z.string().trim().email(),
   password: passwordSchema,
-  role: z.enum(["CSR", "DRIVER"]),
+  role: z.enum(["CSR", "DRIVER", "LOGGER"]),
 });
 
 // The internal API's PortalUser record carries verification/reset tokens
@@ -36,7 +36,8 @@ export async function GET() {
 
   const { users: csr } = await apiClient.portalUsers.list({ role: "CSR" });
   const { users: drivers } = await apiClient.portalUsers.list({ role: "DRIVER" });
-  const users = [...csr, ...drivers]
+  const { users: loggers } = await apiClient.portalUsers.list({ role: "LOGGER" });
+  const users = [...csr, ...drivers, ...loggers]
     .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
     .map(toStaffRow);
 

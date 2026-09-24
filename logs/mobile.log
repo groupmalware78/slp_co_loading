@@ -2,17 +2,9 @@ Launching lib/main.dart on iPhone 17 Pro in debug mode...
 The following plugins do not support Swift Package Manager for ios:
   - open_filex
 This will become an error in a future version of Flutter. Please contact the plugin maintainers to request Swift Package Manager adoption.
--[WFIsolatedShortcutRunner init] Taking sandbox extensions for execution
--[WFIsolatedShortcutRunner init]_block_invoke Sandbox extensions acquired
-Indexing for request: <WFToolKitIndexingRequest: 0x1025a4320>, changeset: .partial(updatedCount: 1 removedCount: 0 updated: ["com.swiftcargo.customerPortalMobile"], removed: [], provenance: [VoiceShortcutClient.ToolKitIndexingReason.Changeset.Provenance.launchServicesSnapshot(<LaunchServicesSnapshot uuid=2A8ED55B-4423-4CC9-9B7F-75EA1E2FBC05, v=764)> ["com.apple.intelligenceplatform.IntelligencePlatform.IntelligencePlatformDataActionsAppIntentsExtension", "com.apple.omniSearch.SearchToolExtension", "com.apple.Health.Sleep", "com.apple.ProximityReaderSceneUI", "com.apple.AccessoryNotifications.SourceSelection", "com.apple.mobiletimer.ClockAppIntents", "com.apple.commandandcontrol", "com.apple.BarcodeScanner", "com.apple.CarPlayTemplateUIHost", "com.apple.NeighborhoodActivityConduitService.NeighborhoodActivityConduitIntentsExtension", "com.apple.Photos.PhotosUIService", "com.apple.TelephonyUtilities.FaceTimeMessageStoreIntentsExtension", "com.apple.Preferences.PassbookSettingsIntentExtension", "com.apple.quicklook.UIExtension", "c<…>, priority: <decode: missing data>
-Indexed: 0
-Errored: 0
-Skipped: [:]
-Finished in 0.909403s
--[WFIsolatedShortcutRunner unaliveProcess] Releasing sandbox extensions
 Running Xcode build...                                          
-Xcode build done.                                           19.5s
-Syncing files to device iPhone 17 Pro...                           310ms
+Xcode build done.                                            5.7s
+Syncing files to device iPhone 17 Pro...                           102ms
 
 Flutter run key commands.
 r Hot reload. 🔥🔥🔥
@@ -22,13 +14,14 @@ d Detach (terminate "flutter run" but leave application running).
 c Clear the screen
 q Quit (terminate the application on the device).
 
-A Dart VM Service on iPhone 17 Pro is available at: http://127.0.0.1:59058/LzVjn-SSCmg=/
-The Flutter DevTools debugger and profiler on iPhone 17 Pro is available at: http://127.0.0.1:59058/LzVjn-SSCmg=/devtools/?uri=ws://127.0.0.1:59058/LzVjn-SSCmg=/ws
+A Dart VM Service on iPhone 17 Pro is available at: http://127.0.0.1:54142/Gj0RDUvas28=/
+The Flutter DevTools debugger and profiler on iPhone 17 Pro is available at: http://127.0.0.1:54142/Gj0RDUvas28=/devtools/?uri=ws://127.0.0.1:54142/Gj0RDUvas28=/ws
 -[WFIsolatedShortcutRunner init] Taking sandbox extensions for execution
 -[WFIsolatedShortcutRunner init]_block_invoke Sandbox extensions acquired
-Indexing for request: <WFToolKitIndexingRequest: 0x1051a4320>, changeset: .partial(updatedCount: 1 removedCount: 0 updated: ["com.swiftcargo.customerPortalMobile"], removed: [], provenance: [VoiceShortcutClient.ToolKitIndexingReason.Changeset.Provenance.launchServicesSnapshot(<LaunchServicesSnapshot uuid=2A8ED55B-4423-4CC9-9B7F-75EA1E2FBC05, v=772)> ["com.apple.WebContentFilter.remoteUI.WebContentAnalysisUI", "com.apple.Maps.MapsSettingsAppIntents", "com.apple.SharedWebCredentialViewService", "com.apple.BusinessActionSheet", "com.apple.AppleIDSetupUIService", "com.apple.siri", "com.apple.ScreenTimeUnlock", "com.apple.AAUIViewService", "com.apple.BusinessChatViewService", "com.apple.SafariViewService", "com.apple.WebSheet", "com.apple.family", "com.apple.MobileSMS", "com.apple.Home.HomeWidgetIntentsExtension", "com.apple.FontServices.FontIntents", "com.apple.Preferences.PassbookSettingsIntentExtension", "com.apple.ios.StoreKitUIService", "com.apple.BarcodeScanner", "com.apple.PassbookStub", "com.apple.AccessoryNotifications.Sour<…>, priority: <decode: missing data>
+Indexing for request: <WFToolKitIndexingRequest: 0x1049a4320>, changeset: .partial(updatedCount: 1 removedCount: 0 updated: ["com.swiftcargo.customerPortalMobile"], removed: [], provenance: [VoiceShortcutClient.ToolKitIndexingReason.Changeset.Provenance.launchServicesSnapshot(<LaunchServicesSnapshot uuid=2A8ED55B-4423-4CC9-9B7F-75EA1E2FBC05, v=780)> ["com.apple.SystemPaperViewService", "com.apple.findmy.FindMyIntents", "com.apple.Passwords", "com.apple.Health.Sleep", "com.apple.avkit.AVKitRoutingService", "com.apple.SpringBoardEducation", "com.apple.UIKit.FontPickerUIService", "com.apple.ProximityReaderUIService", "com.apple.mobilecal", "com.apple.LocalAuthenticationUIService", "com.apple.AppProtectionUIHost", "com.apple.Preferences.KeyboardSettingsExtension", "com.apple.DocumentsApp.DocumentAppIntents", "com.apple.ActivityMessagesApp", "com.apple.TransparencySettingsIntents", "com.apple.AXUIViewService", "com.apple.DocumentsApp", "com.apple.Passwords.PasswordManagerAppIntentsExtension", "com.apple.SharedWebCredentialViewServic<…>, priority: <decode: missing data>
 Indexed: 0
 Errored: 0
 Skipped: [:]
-Finished in 0.313604s
+Finished in 0.343289s
 -[WFIsolatedShortcutRunner unaliveProcess] Releasing sandbox extensions
+Lost connection to device.

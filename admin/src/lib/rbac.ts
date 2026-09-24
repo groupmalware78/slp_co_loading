@@ -54,6 +54,11 @@ export const CAN_EDIT_PACKAGES: Role[] = ["ADMIN", "LOGGER"];
 // neither log nor edit access (read-only).
 export const CAN_VIEW_PACKAGES: Role[] = ["ADMIN", "SCANNER", "LOGGER", "CSR"];
 
+// Roles allowed to print a package's shipping label — everyone except
+// scanner, whose job ends at logging a package in, not handling it
+// afterward.
+export const CAN_PRINT_LABELS: Role[] = ["ADMIN", "LOGGER", "CSR"];
+
 export function canManageUsers(role: Role | undefined | null): boolean {
   return !!role && CAN_MANAGE_USERS.includes(role);
 }
@@ -98,6 +103,10 @@ export function canViewPackages(role: Role | undefined | null): boolean {
   return !!role && CAN_VIEW_PACKAGES.includes(role);
 }
 
+export function canPrintLabels(role: Role | undefined | null): boolean {
+  return !!role && CAN_PRINT_LABELS.includes(role);
+}
+
 // Roles allowed to read the customers/companies directory. Tied to
 // canViewPackages, not canLog/canEdit — PackageEditModal fetches both
 // directories unconditionally (to resolve the assigned customer/company's
@@ -111,7 +120,7 @@ export function canViewDirectories(role: Role | undefined | null): boolean {
 export function homeRouteForRole(role: Role): string {
   switch (role) {
     case "ADMIN":
-      return "/dashboard/companies";
+      return "/dashboard/reports";
     default:
       return "/dashboard/packages";
   }

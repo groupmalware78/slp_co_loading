@@ -23,7 +23,7 @@ export async function GET(
   return NextResponse.json({ user });
 }
 
-const PORTAL_ROLE_VALUES = ["ADMIN", "CSR", "CUSTOMER", "DRIVER"] as const;
+const PORTAL_ROLE_VALUES = ["ADMIN", "CSR", "CUSTOMER", "DRIVER", "LOGGER"] as const;
 
 // Field-set-driven, same philosophy as internal/packages/[id] PATCH — the
 // caller applies its own RBAC/email-verification gating before deciding

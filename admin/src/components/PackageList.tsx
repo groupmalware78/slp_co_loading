@@ -56,7 +56,7 @@ export function PackageList({
   onDelete,
   onSelect,
   footer,
-  sortBy = "receivedAt",
+  sortBy = "updatedAt",
   sortDir = "desc",
   onSort,
 }: {

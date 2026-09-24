@@ -46,7 +46,10 @@ export const authConfig = {
       if (isOnPackagesOnly)
         return (
           isLoggedIn &&
-          (auth.user.role === "ADMIN" || auth.user.role === "CSR" || auth.user.role === "DRIVER")
+          (auth.user.role === "ADMIN" ||
+            auth.user.role === "CSR" ||
+            auth.user.role === "DRIVER" ||
+            auth.user.role === "LOGGER")
         );
       if (isOnCustomersOnly) return isLoggedIn && (auth.user.role === "ADMIN" || auth.user.role === "CSR");
 

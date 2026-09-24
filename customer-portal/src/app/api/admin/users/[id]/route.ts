@@ -9,7 +9,7 @@ import { passwordSchema } from "@/lib/passwordSchema";
 const updateSchema = z.object({
   name: z.string().trim().min(1).max(150).optional(),
   email: z.string().trim().email().optional(),
-  role: z.enum(["CSR", "DRIVER"]).optional(),
+  role: z.enum(["CSR", "DRIVER", "LOGGER"]).optional(),
   active: z.boolean().optional(),
   password: passwordSchema.optional(),
 });
@@ -41,7 +41,7 @@ export async function PATCH(
     // to reactivate it first.
     if (target.role === "CUSTOMER" || target.role === "ADMIN") {
       return NextResponse.json(
-        { error: "Only CSR and Driver accounts can be managed here." },
+        { error: "Only CSR, Driver, and Logger accounts can be managed here." },
         { status: 400 }
       );
     }

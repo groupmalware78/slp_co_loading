@@ -87,7 +87,18 @@ export function SearchableSelect({
           !disabled && (selected ? "text-slate-900" : "text-slate-400")
         )}
       >
-        <span className="truncate">{selected ? selected.label : placeholder}</span>
+        <span className="truncate">
+          {selected ? (
+            <>
+              {selected.label}
+              {selected.sublabel && (
+                <span className="ml-1 text-xs text-slate-400">{selected.sublabel}</span>
+              )}
+            </>
+          ) : (
+            placeholder
+          )}
+        </span>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 shrink-0 text-slate-400">
           <path d="m6 9 6 6 6-6" />
         </svg>

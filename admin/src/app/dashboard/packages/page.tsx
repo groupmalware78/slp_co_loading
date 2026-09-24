@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { canDeletePackages, canEditPackages, canLogPackages, canViewPackages } from "@/lib/rbac";
+import { canDeletePackages, canEditPackages, canLogPackages, canPrintLabels, canViewPackages } from "@/lib/rbac";
 import { DEFAULT_PACKAGES_PAGE_SIZE, packageInclude } from "@/lib/packageSchema";
 import { PackagesView } from "@/components/PackagesView";
 import type { PackageWithRelations } from "@/types/package";
@@ -17,7 +17,7 @@ export default async function PackagesPage() {
 
   const [packages, total, companies, users] = await Promise.all([
     prisma.package.findMany({
-      orderBy: { receivedAt: "desc" },
+      orderBy: { updatedAt: "desc" },
       take: DEFAULT_PACKAGES_PAGE_SIZE,
       include: packageInclude,
     }),
@@ -41,6 +41,7 @@ export default async function PackagesPage() {
       canLog={canLogPackages(session.user.role)}
       canDelete={canDeletePackages(session.user.role)}
       canEdit={canEditPackages(session.user.role)}
+      canPrintLabel={canPrintLabels(session.user.role)}
     />
   );
 }

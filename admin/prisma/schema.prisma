@@ -54,6 +54,10 @@ enum PortalRole {
   CSR
   CUSTOMER
   DRIVER
+  // Package-details editor for customer-portal staff — see
+  // ../../api/prisma/schema.prisma's copy of this enum (this table is
+  // shared between admin and api, same pattern as Role/User).
+  LOGGER
 }
 
 // Which of a package's measurements a FeeRange tier is matched against —

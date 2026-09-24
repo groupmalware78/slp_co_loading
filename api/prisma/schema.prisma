@@ -7,9 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Kept in sync with ../../admin/prisma/schema.prisma's Role enum — both
+// apps share this Postgres enum type on the same database (see the
+// User model below, the "users" table itself is shared too), so a
+// change to one side without the other causes Prisma's query engine to
+// reject any row whose role isn't in its own copy of the enum.
 enum Role {
   ADMIN
-  WAREHOUSE_ATTENDANT
+  SCANNER
+  LOGGER
+  CSR
 }
 
 enum PackageStatus {
@@ -47,6 +54,11 @@ enum PortalRole {
   CSR
   CUSTOMER
   DRIVER
+  // Package-details editor for customer-portal staff — everything a CSR
+  // could edit on a package except payment status/amount (see
+  // customer-portal's lib/rbac.ts editablePackageFields), plus scan-to-
+  // locate access to jump straight to a package's edit modal.
+  LOGGER
 }
 
 // Which of a package's measurements a FeeRange tier is matched against —
@@ -108,7 +120,7 @@ model User {
   name         String
   email        String   @unique
   passwordHash String
-  role         Role     @default(WAREHOUSE_ATTENDANT)
+  role         Role     @default(SCANNER)
   active       Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -178,11 +190,6 @@ model Company {
   contactPhone String?
   address      String?
   active       Boolean  @default(true)
-  // The Service-Provider platform's own billing rate for this company —
-  // distinct from ShippingRate (what this company charges its own
-  // customers). Used by /dashboard/manifests' "Generate invoice" action:
-  // amount = manifest.packageCount * perPackageRate.
-  perPackageRate Float    @default(0)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -616,7 +623,8 @@ model Manifest {
   triggeredBy  String   @default("MANUAL")
 
   // The Service-Provider platform's own billing invoice for this manifest
-  // (packageCount * Company.perPackageRate at generation time — see
+  // (packageCount * the platform's global per-package rate, admin's
+  // PlatformSettings.perPackageRate, at generation time — see
   // /dashboard/manifests) — distinct from Package.generatedInvoicePdf,
   // which is the freight forwarder billing its own customer. Null until
   // generated; regenerating overwrites all four fields together.

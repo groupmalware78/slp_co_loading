@@ -3,6 +3,7 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { StaffEditModal, type StaffRow } from "./StaffEditModal";
 import { PASSWORD_PATTERN, PASSWORD_REQUIREMENTS_HINT } from "@/lib/passwordSchema";
+import { ROLE_LABELS } from "@/lib/rbac";
 import { Pager } from "./Pager";
 
 const PAGE_SIZE = 10;
@@ -14,7 +15,7 @@ export function StaffView({ initialStaff }: { initialStaff: StaffRow[] }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState<"CSR" | "DRIVER">("CSR");
+  const [role, setRole] = useState<"CSR" | "DRIVER" | "LOGGER">("CSR");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [editingUser, setEditingUser] = useState<StaffRow | null>(null);
@@ -72,7 +73,7 @@ export function StaffView({ initialStaff }: { initialStaff: StaffRow[] }) {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-lg font-semibold text-slate-900">Staff</h1>
-          <p className="text-sm text-slate-500">Manage CSR and driver accounts for this portal.</p>
+          <p className="text-sm text-slate-500">Manage CSR, driver, and logger accounts for this portal.</p>
         </div>
         <button
           type="button"
@@ -121,11 +122,12 @@ export function StaffView({ initialStaff }: { initialStaff: StaffRow[] }) {
           />
           <select
             value={role}
-            onChange={(e) => setRole(e.target.value as "CSR" | "DRIVER")}
+            onChange={(e) => setRole(e.target.value as "CSR" | "DRIVER" | "LOGGER")}
             className={inputClass}
           >
             <option value="CSR">Customer Service Rep</option>
             <option value="DRIVER">Driver</option>
+            <option value="LOGGER">Logger</option>
           </select>
           <p className="col-span-full -mt-1 text-xs text-slate-400">{PASSWORD_REQUIREMENTS_HINT}</p>
           <button
@@ -157,7 +159,7 @@ export function StaffView({ initialStaff }: { initialStaff: StaffRow[] }) {
                 <td className="whitespace-nowrap px-4 py-3 text-sm text-slate-900">{u.name}</td>
                 <td className="whitespace-nowrap px-4 py-3 text-sm text-slate-600">{u.email}</td>
                 <td className="whitespace-nowrap px-4 py-3 text-sm text-slate-600">
-                  {u.role === "CSR" ? "Customer Service Rep" : "Driver"}
+                  {ROLE_LABELS[u.role]}
                 </td>
                 <td className="whitespace-nowrap px-4 py-3">
                   <label className="inline-flex items-center gap-2 text-xs text-slate-600">

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { registry, ErrorSchema, PortalUserSchema } from "../registry";
 
-const PORTAL_ROLE_VALUES = ["ADMIN", "CSR", "CUSTOMER", "DRIVER"] as const;
+const PORTAL_ROLE_VALUES = ["ADMIN", "CSR", "CUSTOMER", "DRIVER", "LOGGER"] as const;
 
 registry.registerPath({
   method: "get",

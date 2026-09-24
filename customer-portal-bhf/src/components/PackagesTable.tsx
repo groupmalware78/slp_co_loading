@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { StatusBadge, PaymentStatusBadge } from "./StatusBadge";
 import { formatDateTime } from "@/lib/formatDateTime";
 import { PackageEditModal, type EditablePackageRow } from "./PackageEditModal";
+import { LocatePackageModal } from "./LocatePackageModal";
 import type { EditablePackageField } from "@/lib/rbac";
 import { Pager } from "./Pager";
 
@@ -32,7 +33,10 @@ export function PackagesTable({
 }) {
   const [packages, setPackages] = useState(initialPackages);
   const [selected, setSelected] = useState<PackageRow | null>(null);
+  const [locateOpen, setLocateOpen] = useState(false);
   const searchParams = useSearchParams();
+
+  const canScanToLocate = editableFields.length > 0;
 
   function handleUpdated(updated: EditablePackageRow) {
     setPackages((prev) => prev.map((p) => (p.id === updated.id ? { ...p, ...updated } : p)));
@@ -40,6 +44,22 @@ export function PackagesTable({
 
   return (
     <>
+      {canScanToLocate && (
+        <div className="mb-3 flex justify-end">
+          <button
+            type="button"
+            onClick={() => setLocateOpen(true)}
+            className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+              <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+              <circle cx="12" cy="13" r="3" />
+            </svg>
+            Scan to edit
+          </button>
+        </div>
+      )}
+
       <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
         <table className="min-w-full divide-y divide-slate-200">
           <thead className="bg-slate-50">
@@ -116,6 +136,16 @@ export function PackagesTable({
           onClose={() => setSelected(null)}
           onUpdated={handleUpdated}
           showCalculateDuties={showCalculateDuties}
+        />
+      )}
+
+      {locateOpen && (
+        <LocatePackageModal
+          onClose={() => setLocateOpen(false)}
+          onFound={(pkg) => {
+            setLocateOpen(false);
+            setSelected(pkg as PackageRow);
+          }}
         />
       )}
     </>

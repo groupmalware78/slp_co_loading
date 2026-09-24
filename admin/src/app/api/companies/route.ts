@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -75,41 +76,63 @@ export async function POST(request: NextRequest) {
 
   const apiKey = generateApiKey();
 
-  const company = await prisma.company.create({
-    data: {
-      name,
-      code,
-      apiKeyHash: hashApiKey(apiKey),
-      apiKeyPrefix: apiKeyPreview(apiKey),
-      apiKeyRotatedAt: new Date(),
-      contactName,
-      contactEmail,
-      contactPhone,
-      address,
-      trn: trn || undefined,
-    },
-    // Explicit select — apiKeyHash must never reach the client (see the
-    // identical select on the companies dashboard page's fetch).
-    select: {
-      id: true,
-      name: true,
-      code: true,
-      apiKeyPrefix: true,
-      apiKeyScope: true,
-      apiKeyRotatedAt: true,
-      apiKeyRotationDays: true,
-      apiKeyWebhookUrl: true,
-      requestsPerMinute: true,
-      contactName: true,
-      contactEmail: true,
-      contactPhone: true,
-      address: true,
-      trn: true,
-      active: true,
-      createdAt: true,
-      updatedAt: true,
-    },
-  });
+  let company;
+  try {
+    company = await prisma.company.create({
+      data: {
+        name,
+        code,
+        apiKeyHash: hashApiKey(apiKey),
+        apiKeyPrefix: apiKeyPreview(apiKey),
+        apiKeyRotatedAt: new Date(),
+        contactName,
+        contactEmail,
+        contactPhone,
+        address,
+        trn: trn || undefined,
+      },
+      // Explicit select — apiKeyHash must never reach the client (see the
+      // identical select on the companies dashboard page's fetch).
+      select: {
+        id: true,
+        name: true,
+        code: true,
+        apiKeyPrefix: true,
+        apiKeyScope: true,
+        apiKeyRotatedAt: true,
+        apiKeyRotationDays: true,
+        apiKeyWebhookUrl: true,
+        requestsPerMinute: true,
+        contactName: true,
+        contactEmail: true,
+        contactPhone: true,
+        address: true,
+        trn: true,
+        active: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+  } catch (err) {
+    // The findUnique checks above only catch the common case — two
+    // requests racing with the same code (or name/email) can both pass
+    // those checks before either write lands. The database's own @unique
+    // constraint is the actual source of truth; translate its violation
+    // into the same friendly conflict response instead of letting it
+    // surface as an unhandled 500.
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") {
+      const target = Array.isArray(err.meta?.target) ? err.meta.target.join(", ") : String(err.meta?.target ?? "");
+      const field = target.includes("code")
+        ? "code"
+        : target.includes("contactEmail")
+          ? "email"
+          : target.includes("name")
+            ? "name"
+            : "details";
+      return NextResponse.json({ error: `A company with that ${field} already exists.` }, { status: 409 });
+    }
+    throw err;
+  }
 
   await recordAudit({
     entityType: "COMPANY",

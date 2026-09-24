@@ -6,24 +6,561 @@
 - Local:         http://localhost:3001
 - Network:       http://192.168.1.254:3001
 - Environments: .env
-✓ Ready in 461ms
-✓ Running next.config.ts took 105ms
+✓ Ready in 450ms
+✓ Running next.config.ts took 82ms
 [manifest] scheduler started, checking every 30s
 [api-key] status poller started, checking every 5m
 
- GET /login?callbackUrl=http%3A%2F%2Flocalhost%3A3001%2Fadmin%2Fsettings 200 in 3.7s (next.js: 2.2s, proxy.ts: 3ms, application-code: 1524ms)
- GET /api/branding/logo 200 in 1306ms (next.js: 308ms, application-code: 998ms)
- GET /api/branding/favicon 200 in 1124ms (next.js: 481ms, application-code: 643ms)
- GET /api/auth/session 200 in 1593ms (next.js: 1570ms, application-code: 23ms)
- GET /api/auth/session 200 in 17ms (next.js: 6ms, application-code: 10ms)
- GET /api/auth/session 200 in 16ms (next.js: 5ms, application-code: 11ms)
- GET /api/auth/session 200 in 10ms (next.js: 4ms, application-code: 7ms)
- GET /api/v1/tenant/resolve 404 in 719ms (next.js: 574ms, application-code: 145ms)
- GET /login 200 in 44ms (next.js: 3ms, proxy.ts: 3ms, application-code: 38ms)
- GET /api/auth/csrf 200 in 11ms (next.js: 6ms, application-code: 4ms)
- POST /api/auth/callback/credentials 302 in 272ms (next.js: 1.7ms, application-code: 270ms)
- GET /api/auth/session 200 in 5ms (next.js: 1.0ms, application-code: 4ms)
- GET /admin/api-key 200 in 968ms (next.js: 235ms, proxy.ts: 15ms, application-code: 718ms)
- POST /api/admin/api-key/rotate 200 in 126ms (next.js: 90ms, application-code: 36ms)
- GET /packages 200 in 276ms (next.js: 120ms, proxy.ts: 7ms, application-code: 149ms)
+ GET /signup 200 in 512ms (next.js: 2ms, proxy.ts: 3ms, application-code: 507ms)
+ GET /api/locations 200 in 274ms (next.js: 109ms, application-code: 165ms)
+ GET /api/locations 200 in 14ms (next.js: 0.8ms, application-code: 14ms)
+ GET /api/branding/logo 200 in 729ms (next.js: 176ms, application-code: 553ms)
+ GET /api/auth/session 200 in 737ms (next.js: 725ms, application-code: 12ms)
+ GET /api/auth/session 200 in 3ms (next.js: 1.9ms, application-code: 1.6ms)
+ GET /api/auth/session 200 in 2ms (next.js: 0.7ms, application-code: 1.4ms)
+ GET /api/auth/session 200 in 2ms (next.js: 0.7ms, application-code: 1.5ms)
+ GET /api/branding/favicon 200 in 564ms (next.js: 50ms, application-code: 515ms)
+ GET / 200 in 757ms (next.js: 654ms, application-code: 103ms)
+ GET /api/auth/session 200 in 11ms (next.js: 4ms, application-code: 8ms)
+ GET /api/auth/session 200 in 5ms (next.js: 1.2ms, application-code: 4ms)
+ GET /api/auth/session 200 in 3ms (next.js: 0.9ms, application-code: 1.7ms)
+ GET /api/auth/session 200 in 3ms (next.js: 0.7ms, application-code: 2ms)
+ GET /api/auth/session 200 in 2ms (next.js: 0.7ms, application-code: 1.7ms)
+ GET /api/auth/session 200 in 1.9ms (next.js: 0.6ms, application-code: 1.4ms)
+[31m[auth][error][0m JWTSessionError: Read more at https://errors.authjs.dev#jwtsessionerror
+[31m[auth][cause][0m: Error: no matching decryption secret
+    at clockTolerance (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_@auth_core_1v8okbx._.js:484:15)
+    at async decryptJWE (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_jose_dist_webapi_1oqzxyj._.js:977:40)
+    at async jwtDecrypt (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_jose_dist_webapi_1oqzxyj._.js:98:38)
+    at async Object.decode (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_@auth_core_1v8okbx._.js:474:25)
+    at async Module.session (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_@auth_core_1v8okbx._.js:1940:29)
+    at async AuthInternal (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_@auth_core_1v8okbx._.js:2494:24)
+    at async Auth (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_@auth_core_1v8okbx._.js:350:34)
+    at async handleAuth (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_0lozu53._.js:562:29)
+    at async /Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_next_1jwlgir._.js:6101:20
+    at async /Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_next_1jwlgir._.js:13309:28
+    at async adapter (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_next_1jwlgir._.js:13248:16)
+    at async DevServer.runMiddleware (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/next-server.js:1206:26)
+    at async DevServer.runMiddleware (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/dev/next-dev-server.js:310:28)
+    at async NextNodeServer.handleCatchallMiddlewareRequest (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/next-server.js:392:26)
+    at async DevServer.handleRequestImpl (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/base-server.js:985:28)
+    at async /Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/dev/next-dev-server.js:426:20
+    at async Span.traceAsyncFn (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/trace/trace.js:164:20)
+    at async DevServer.handleRequest (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/dev/next-dev-server.js:422:24)
+    at async handleRoute (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/lib/router-utils/resolve-routes.js:369:33)
+    at async resolveRoutes (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/lib/router-utils/resolve-routes.js:625:28)
+    at async handleRequest (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/lib/router-server.js:354:96)
+    at async requestHandlerImpl (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/lib/router-server.js:565:13)
+    at async Server.requestListener (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/lib/start-server.js:225:13)
+[31m[auth][details][0m: {}
+[31m[auth][error][0m JWTSessionError: Read more at https://errors.authjs.dev#jwtsessionerror
+[31m[auth][cause][0m: Error: no matching decryption secret
+    at clockTolerance (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/ssr/node_modules_@auth_core_1tplxaj._.js:484:15)
+    at async decryptJWE (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/ssr/node_modules_jose_dist_webapi_09q564q._.js:977:40)
+    at async jwtDecrypt (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/ssr/node_modules_jose_dist_webapi_09q564q._.js:98:38)
+    at async Object.decode (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/ssr/node_modules_@auth_core_1tplxaj._.js:474:25)
+    at async Module.session (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/ssr/node_modules_@auth_core_1tplxaj._.js:1940:29)
+    at async AuthInternal (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/ssr/node_modules_@auth_core_1tplxaj._.js:2494:24)
+    at async Auth (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/ssr/node_modules_@auth_core_1tplxaj._.js:350:34)
+    at async LoginPage (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/ssr/[root-of-the-server]__1_kyich._.js:41:21)
+[31m[auth][details][0m: {}
+ GET /login 200 in 195ms (next.js: 141ms, proxy.ts: 18ms, application-code: 36ms)
+ GET /api/branding/logo 200 in 41ms (next.js: 5ms, application-code: 36ms)
+ GET /api/auth/providers 200 in 14ms (next.js: 6ms, application-code: 7ms)
+ GET /api/auth/csrf 200 in 5ms (next.js: 1.8ms, application-code: 3ms)
+ POST /api/auth/callback/credentials? 200 in 308ms (next.js: 1.2ms, application-code: 307ms)
+ GET /api/auth/session 200 in 4ms (next.js: 0.6ms, application-code: 3ms)
+ GET /api/auth/session 200 in 3ms (next.js: 0.5ms, application-code: 3ms)
+ GET /api/auth/session 200 in 4ms (next.js: 0.7ms, application-code: 4ms)
+⨯ Error [ApiError]: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at async PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } {
+  status: 500,
+  isApiError: true,
+  digest: '1193443619'
+}
+⨯ Error [ApiError]: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at async PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } {
+  status: 500,
+  isApiError: true,
+  digest: '1193443619'
+}
+ GET /packages 200 in 554ms (next.js: 2ms, proxy.ts: 17ms, application-code: 535ms)
+ GET /packages 200 in 710ms (next.js: 129ms, proxy.ts: 5ms, application-code: 575ms)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+⨯ Error [ApiError]: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at async PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } {
+  status: 500,
+  isApiError: true,
+  digest: '1193443619'
+}
+ GET /packages 500 in 150ms (next.js: 29ms, proxy.ts: 14ms, application-code: 106ms)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+ GET /api/auth/session 200 in 12ms (next.js: 4ms, application-code: 8ms)
+ GET /api/branding/logo 200 in 36ms (next.js: 4ms, application-code: 33ms)
+ GET /api/auth/session 200 in 11ms (next.js: 1.5ms, application-code: 10ms)
+ GET /api/branding/favicon 200 in 24ms (next.js: 1.9ms, application-code: 22ms)
+[31m[auth][error][0m JWTSessionError: Read more at https://errors.authjs.dev#jwtsessionerror
+[31m[auth][cause][0m: Error: no matching decryption secret
+    at clockTolerance (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_@auth_core_0gltlle._.js:484:15)
+    at async decryptJWE (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_jose_dist_webapi_1_yi52-._.js:977:40)
+    at async jwtDecrypt (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_jose_dist_webapi_1_yi52-._.js:98:38)
+    at async Object.decode (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_@auth_core_0gltlle._.js:474:25)
+    at async Module.session (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_@auth_core_0gltlle._.js:1940:29)
+    at async AuthInternal (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_@auth_core_0gltlle._.js:2494:24)
+    at async Auth (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_@auth_core_0gltlle._.js:350:34)
+    at async AppRouteRouteModule.do (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:42793)
+    at async AppRouteRouteModule.handle (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:50547)
+    at async responseGenerator (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_next_1e9htnb._.js:5328:30)
+    at async AppRouteRouteModule.handleResponse (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:1:250435)
+    at async handleResponse (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_next_1e9htnb._.js:5400:32)
+    at async Module.handler (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/.next/dev/server/chunks/node_modules_next_1e9htnb._.js:5520:9)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/base-server.js:1537:9)
+    at async DevServer.renderPageComponent (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/base-server.js:1589:24)
+    at async DevServer.renderToResponseImpl (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/base-server.js:1639:32)
+    at async DevServer.pipeImpl (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/base-server.js:1088:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/next-server.js:338:17)
+    at async DevServer.handleRequestImpl (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/base-server.js:979:17)
+    at async /Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/dev/next-dev-server.js:426:20
+    at async Span.traceAsyncFn (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/trace/trace.js:164:20)
+    at async DevServer.handleRequest (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/dev/next-dev-server.js:422:24)
+    at async invokeRender (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/lib/router-server.js:306:21)
+    at async handleRequest (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/lib/router-server.js:508:24)
+    at async requestHandlerImpl (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/lib/router-server.js:565:13)
+    at async Server.requestListener (/Users/deevexx/Documents/PROJECTS/freight-forwarder/customer-portal/node_modules/next/dist/server/lib/start-server.js:225:13)
+[31m[auth][details][0m: {}
+ GET /api/auth/session 200 in 22ms (next.js: 14ms, application-code: 9ms)
+ GET /api/auth/session 200 in 4ms (next.js: 1.3ms, application-code: 2ms)
+ GET /login?callbackUrl=http%3A%2F%2Flocalhost%3A3001%2Fpackages 200 in 101ms (next.js: 30ms, proxy.ts: 3ms, application-code: 68ms)
+ GET /api/branding/logo 200 in 49ms (next.js: 3ms, application-code: 46ms)
+ GET /api/auth/session 200 in 9ms (next.js: 5ms, application-code: 4ms)
+ GET /api/auth/session 200 in 3ms (next.js: 0.9ms, application-code: 2ms)
+ GET /api/auth/session 200 in 5ms (next.js: 2ms, application-code: 2ms)
+ GET /api/auth/session 200 in 5ms (next.js: 0.9ms, application-code: 4ms)
+ GET /api/branding/favicon 200 in 32ms (next.js: 1.8ms, application-code: 30ms)
+ GET /api/auth/providers 200 in 10ms (next.js: 4ms, application-code: 6ms)
+ GET /api/auth/csrf 200 in 3ms (next.js: 0.6ms, application-code: 2ms)
+ POST /api/auth/callback/credentials? 200 in 88ms (next.js: 1.0ms, application-code: 87ms)
+ GET /api/auth/session 200 in 3ms (next.js: 0.6ms, application-code: 3ms)
+ GET /api/auth/session 200 in 3ms (next.js: 0.6ms, application-code: 3ms)
+ GET /api/auth/session 200 in 4ms (next.js: 0.6ms, application-code: 4ms)
+⨯ Error [ApiError]: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at async PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } {
+  status: 500,
+  isApiError: true,
+  digest: '1193443619'
+}
+ GET /packages 200 in 75ms (next.js: 3ms, proxy.ts: 5ms, application-code: 67ms)
+⨯ Error [ApiError]: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at async PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } {
+  status: 500,
+  isApiError: true,
+  digest: '1193443619'
+}
+ GET /packages 200 in 71ms (next.js: 4ms, proxy.ts: 11ms, application-code: 56ms)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+⨯ Error [ApiError]: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at async PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } {
+  status: 500,
+  isApiError: true,
+  digest: '1193443619'
+}
+ GET /packages 500 in 106ms (next.js: 3ms, proxy.ts: 9ms, application-code: 94ms)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+ GET /api/auth/session 200 in 9ms (next.js: 4ms, application-code: 5ms)
+ GET /api/branding/logo 200 in 28ms (next.js: 0.8ms, application-code: 27ms)
+ GET /api/auth/session 200 in 21ms (next.js: 2ms, application-code: 18ms)
+ GET /api/branding/favicon 200 in 54ms (next.js: 3ms, application-code: 51ms)
+⨯ Error [ApiError]: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at async PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } {
+  status: 500,
+  isApiError: true,
+  digest: '1193443619'
+}
+ GET /packages 500 in 101ms (next.js: 3ms, proxy.ts: 11ms, application-code: 87ms)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+ GET /api/auth/session 200 in 9ms (next.js: 3ms, application-code: 6ms)
+ GET /api/branding/logo 200 in 26ms (next.js: 0.8ms, application-code: 25ms)
+ GET /api/auth/session 200 in 10ms (next.js: 1.2ms, application-code: 8ms)
+ GET /api/branding/favicon 200 in 20ms (next.js: 0.7ms, application-code: 19ms)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+ GET /login 307 in 93ms (next.js: 5ms, proxy.ts: 9ms, application-code: 79ms)
+⨯ Error [ApiError]: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at async PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } {
+  status: 500,
+  isApiError: true,
+  digest: '1193443619'
+}
+ GET /packages 500 in 105ms (next.js: 1.3ms, proxy.ts: 7ms, application-code: 97ms)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+ GET /api/auth/session 200 in 10ms (next.js: 3ms, application-code: 8ms)
+ GET /api/branding/logo 200 in 27ms (next.js: 0.9ms, application-code: 26ms)
+ GET /api/auth/session 200 in 4ms (next.js: 1.2ms, application-code: 3ms)
+ GET /api/auth/session 200 in 15ms (next.js: 7ms, application-code: 7ms)
+ GET /api/auth/session 200 in 4ms (next.js: 1.3ms, application-code: 3ms)
+ GET /api/auth/csrf 200 in 5ms (next.js: 3ms, application-code: 2ms)
+ GET /login 200 in 60ms (next.js: 2ms, proxy.ts: 7ms, application-code: 51ms)
+ GET /api/branding/logo 200 in 14ms (next.js: 0.9ms, application-code: 13ms)
+ GET /api/auth/session 200 in 9ms (next.js: 4ms, application-code: 5ms)
+ GET /api/auth/session 200 in 6ms (next.js: 2.0ms, application-code: 4ms)
+ GET /api/auth/session 200 in 3ms (next.js: 1.1ms, application-code: 2ms)
+ GET /api/auth/session 200 in 1.9ms (next.js: 0.5ms, application-code: 1.4ms)
+ GET /api/auth/providers 200 in 12ms (next.js: 6ms, application-code: 6ms)
+ GET /api/auth/csrf 200 in 4ms (next.js: 1.3ms, application-code: 3ms)
+ POST /api/auth/callback/credentials? 200 in 77ms (next.js: 1.2ms, application-code: 76ms)
+ GET /api/auth/session 200 in 3ms (next.js: 0.7ms, application-code: 2ms)
+ GET /api/auth/session 200 in 3ms (next.js: 0.5ms, application-code: 2ms)
+ GET /api/auth/session 200 in 6ms (next.js: 0.6ms, application-code: 5ms)
+⨯ Error [ApiError]: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at async PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } {
+  status: 500,
+  isApiError: true,
+  digest: '1193443619'
+}
+ GET /packages 200 in 52ms (next.js: 1.6ms, proxy.ts: 7ms, application-code: 43ms)
+⨯ Error [ApiError]: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at async PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } {
+  status: 500,
+  isApiError: true,
+  digest: '1193443619'
+}
+ GET /packages 200 in 54ms (next.js: 1.1ms, proxy.ts: 2ms, application-code: 51ms)
+ GET /api/auth/providers 200 in 14ms (next.js: 8ms, application-code: 7ms)
+ GET /api/auth/csrf 200 in 5ms (next.js: 1.3ms, application-code: 3ms)
+ POST /api/auth/callback/credentials? 200 in 77ms (next.js: 1.1ms, application-code: 76ms)
+ GET /api/auth/session 200 in 3ms (next.js: 0.6ms, application-code: 2ms)
+ GET /api/auth/session 200 in 3ms (next.js: 0.6ms, application-code: 3ms)
+ GET /api/auth/session 200 in 5ms (next.js: 0.7ms, application-code: 5ms)
+⨯ Error [ApiError]: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at async PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } {
+  status: 500,
+  isApiError: true,
+  digest: '1193443619'
+}
+⨯ Error [ApiError]: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at async PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } {
+  status: 500,
+  isApiError: true,
+  digest: '1193443619'
+}
+ GET /packages 200 in 74ms (next.js: 2ms, proxy.ts: 6ms, application-code: 66ms)
+ GET /packages 200 in 74ms (next.js: 10ms, proxy.ts: 6ms, application-code: 59ms)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+[browser] ApiError: Request failed (500).
+    at ApiClient.json (src/lib/apiClient.ts:96:13)
+    at  PackagesPage (src/app/(portal)/packages/page.tsx:30:43)
+  94 |     if (!res.ok) {
+  95 |       const message = (body as { error?: string } | null)?.error ?? `Request failed (${res.status}).`;
+> 96 |       throw new ApiError(message, res.status);
+     |             ^
+  97 |     }
+  98 |     return body as T;
+  99 |   } (src/app/error.tsx:13:13)
+ GET /api/auth/csrf 200 in 5ms (next.js: 2ms, application-code: 2ms)
+ POST /api/auth/callback/credentials 302 in 62ms (next.js: 0.6ms, application-code: 62ms)
+ GET /api/auth/session 200 in 7ms (next.js: 3ms, application-code: 5ms)
+ GET / 200 in 80ms (next.js: 11ms, application-code: 69ms)
+ GET /my-shipments 200 in 319ms (next.js: 224ms, proxy.ts: 5ms, application-code: 89ms)
+ GET /api/auth/csrf 200 in 6ms (next.js: 3ms, application-code: 3ms)
+ POST /api/auth/callback/credentials 302 in 66ms (next.js: 0.8ms, application-code: 66ms)
+ GET /api/auth/csrf 200 in 4ms (next.js: 2ms, application-code: 1.8ms)
+ POST /api/auth/callback/credentials 302 in 69ms (next.js: 0.7ms, application-code: 69ms)
+ GET /api/auth/session 200 in 3ms (next.js: 0.7ms, application-code: 3ms)
 [?25h

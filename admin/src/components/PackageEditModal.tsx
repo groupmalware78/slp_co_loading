@@ -10,11 +10,13 @@ import { SearchableSelect, type SearchableSelectOption } from "./SearchableSelec
 export function PackageEditModal({
   pkg,
   canEdit,
+  canPrintLabel,
   onClose,
   onUpdated,
 }: {
   pkg: PackageWithRelations;
   canEdit: boolean;
+  canPrintLabel: boolean;
   onClose: () => void;
   onUpdated?: (pkg: PackageWithRelations) => void;
 }) {
@@ -28,7 +30,7 @@ export function PackageEditModal({
   const [description, setDescription] = useState(pkg.description ?? "");
   const [companies, setCompanies] = useState<SearchableSelectOption[]>([]);
   const [customers, setCustomers] = useState<
-    { id: string; name: string; companyId: string | null }[]
+    { id: string; name: string; companyId: string | null; customerCode: string | null }[]
   >([]);
   const [loadingDirectories, setLoadingDirectories] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -62,11 +64,19 @@ export function PackageEditModal({
         if (customersRes.ok) {
           const data = await customersRes.json();
           setCustomers(
-            data.customers.map((c: { id: string; name: string; companyId: string | null }) => ({
-              id: c.id,
-              name: c.name,
-              companyId: c.companyId,
-            }))
+            data.customers.map(
+              (c: {
+                id: string;
+                name: string;
+                companyId: string | null;
+                customerCode: string | null;
+              }) => ({
+                id: c.id,
+                name: c.name,
+                companyId: c.companyId,
+                customerCode: c.customerCode,
+              })
+            )
           );
         }
       } finally {
@@ -78,7 +88,7 @@ export function PackageEditModal({
 
   const customerOptions: SearchableSelectOption[] = customers
     .filter((c) => !companyId || c.companyId === companyId)
-    .map((c) => ({ id: c.id, label: c.name }));
+    .map((c) => ({ id: c.id, label: c.name, sublabel: c.customerCode ?? undefined }));
 
   function handleCompanyChange(nextCompanyId: string | null) {
     setCompanyId(nextCompanyId);
@@ -156,14 +166,16 @@ export function PackageEditModal({
             {pkg.trackingNumber}
           </h2>
           <div className="flex items-center gap-3">
-            <a
-              href={`/labels/${pkg.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-md border border-emerald-200 bg-emerald-100 px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-emerald-200"
-            >
-              Print Label
-            </a>
+            {canPrintLabel && (
+              <a
+                href={`/labels/${pkg.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-md border border-emerald-200 bg-emerald-100 px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-emerald-200"
+              >
+                Print Label
+              </a>
+            )}
             <button
               type="button"
               onClick={onClose}

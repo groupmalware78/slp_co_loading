@@ -10,6 +10,7 @@ export function PackageLabel({
   description,
   companyName,
   weightLbs,
+  receivedAt,
 }: {
   trackingNumber: string;
   customerCode: string | null;
@@ -17,7 +18,14 @@ export function PackageLabel({
   description: string | null;
   companyName: string | null;
   weightLbs: number | null;
+  receivedAt: string | null;
 }) {
+  const receivedAtLabel = receivedAt
+    ? new Date(receivedAt).toLocaleString(undefined, {
+        dateStyle: "medium",
+        timeStyle: "short",
+      })
+    : "—";
   const barcodeRef = useRef<SVGSVGElement | null>(null);
 
   useEffect(() => {
@@ -57,7 +65,7 @@ export function PackageLabel({
         </button>
       </div>
 
-      <div className="w-[4in] rounded-md border border-slate-300 bg-white p-4 shadow-sm print:w-full print:rounded-none print:border-0 print:p-0 print:shadow-none">
+      <div className="flex h-[6in] w-[4in] flex-col rounded-md border border-slate-300 bg-white p-4 shadow-sm print:h-full print:w-full print:rounded-none print:border-0 print:p-0 print:shadow-none">
         <p className="text-center text-sm font-bold uppercase tracking-wide text-slate-900">
           {companyName ?? "Freight Forwarder"}
         </p>
@@ -70,6 +78,7 @@ export function PackageLabel({
         </div>
 
         <dl className="mt-3 space-y-1.5 border-t border-slate-200 pt-3 text-sm">
+          <Row label="Received" value={receivedAtLabel} />
           <Row label="Customer ID" value={customerCode ?? "—"} />
           <Row label="Customer" value={customerName ?? "—"} />
           <Row label="Description" value={description ?? "—"} />

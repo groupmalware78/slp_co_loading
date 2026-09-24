@@ -69,7 +69,7 @@ export default async function PackagesPage({
           initialPackages={packages}
           editableFields={editablePackageFields(session.user.role)}
           pagination={{ page, totalPages, total, pageSize: PAGE_SIZE }}
-          showCalculateDuties={session.user.role === "ADMIN" || session.user.role === "CSR"}
+          showCalculateDuties={session.user.role === "ADMIN"}
         />
       )}
     </div>

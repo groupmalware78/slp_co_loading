@@ -26,8 +26,8 @@ CSR is read-only.
 
 ## Customer portals
 
-All customer-portal accounts below (Admin, CSR, Driver, Customer — every role)
-share one password: **`TestPass#123`**
+All customer-portal accounts below (Admin, CSR, Driver, Logger, Customer —
+every role) share one password: **`TestPass#123`**
 
 ### Swift Cargo Express (SCE) — http://localhost:3001
 Directory: `customer-portal`
@@ -48,6 +48,11 @@ Directory: `customer-portal`
 |---|---|
 | Simone Campbell | driver1@sce.example.test |
 | Nicole Blake | driver2@sce.example.test |
+
+**Logger**
+| Name | Email |
+|---|---|
+| Test Logger | logger1@sce.example.test |
 
 **Customers**
 | Name | Email | Customer ID |
@@ -85,6 +90,11 @@ Directory: `customer-portal-bhf`
 | Leon Hutchinson | driver1@bhf.example.test |
 | Simone Grant | driver2@bhf.example.test |
 
+**Logger**
+| Name | Email |
+|---|---|
+| Test Logger | logger1@bhf.example.test |
+
 **Customers**
 | Name | Email | Customer ID |
 |---|---|---|
@@ -120,6 +130,11 @@ Directory: `customer-portal-ids`
 |---|---|
 | Andre Powell | driver1@ids.example.test |
 | Kevin Powell | driver2@ids.example.test |
+
+**Logger**
+| Name | Email |
+|---|---|
+| Test Logger | logger1@ids.example.test |
 
 **Customers**
 | Name | Email | Customer ID |

@@ -34,6 +34,7 @@ export function PackagesView({
   canLog,
   canDelete,
   canEdit,
+  canPrintLabel,
 }: {
   initialPackages: PackageWithRelations[];
   initialPagination: Pagination;
@@ -43,6 +44,7 @@ export function PackagesView({
   canLog: boolean;
   canDelete: boolean;
   canEdit: boolean;
+  canPrintLabel: boolean;
 }) {
   const [packages, setPackages] = useState(initialPackages);
   const [pagination, setPagination] = useState(initialPagination);
@@ -51,7 +53,7 @@ export function PackagesView({
   const [handOffTrackingNumber, setHandOffTrackingNumber] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState<PackageFilterValues>(EMPTY_PACKAGE_FILTERS);
-  const [sortBy, setSortBy] = useState<SortablePackageField>("receivedAt");
+  const [sortBy, setSortBy] = useState<SortablePackageField>("updatedAt");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [refreshing, setRefreshing] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
@@ -251,6 +253,7 @@ export function PackagesView({
         <PackageEditModal
           pkg={selectedPackage}
           canEdit={canEdit}
+          canPrintLabel={canPrintLabel}
           onClose={() => setSelectedPackage(null)}
           onUpdated={handlePackageUpdated}
         />

@@ -24,7 +24,7 @@ function buildOrderBy(
     sortBy as SortablePackageField
   )
     ? (sortBy as SortablePackageField)
-    : "receivedAt";
+    : "updatedAt";
 
   switch (field) {
     case "trackingNumber":

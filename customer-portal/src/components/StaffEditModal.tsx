@@ -7,7 +7,7 @@ export interface StaffRow {
   id: string;
   name: string;
   email: string;
-  role: "CSR" | "DRIVER";
+  role: "CSR" | "DRIVER" | "LOGGER";
   active: boolean;
   createdAt: string;
 }
@@ -23,7 +23,7 @@ export function StaffEditModal({
 }) {
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
-  const [role, setRole] = useState<"CSR" | "DRIVER">(user.role);
+  const [role, setRole] = useState<"CSR" | "DRIVER" | "LOGGER">(user.role);
   const [active, setActive] = useState(user.active);
   const [newPassword, setNewPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -124,11 +124,12 @@ export function StaffEditModal({
               <select
                 id="staff-role"
                 value={role}
-                onChange={(e) => setRole(e.target.value as "CSR" | "DRIVER")}
+                onChange={(e) => setRole(e.target.value as "CSR" | "DRIVER" | "LOGGER")}
                 className={inputClass}
               >
                 <option value="CSR">Customer Service Rep</option>
                 <option value="DRIVER">Driver</option>
+                <option value="LOGGER">Logger</option>
               </select>
             </div>
             <div>

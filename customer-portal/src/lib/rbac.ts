@@ -5,9 +5,10 @@ export const ROLE_LABELS: Record<PortalRole, string> = {
   CSR: "Customer Service Rep",
   CUSTOMER: "Customer",
   DRIVER: "Driver",
+  LOGGER: "Logger",
 };
 
-export const ROLES: PortalRole[] = ["ADMIN", "CSR", "CUSTOMER", "DRIVER"];
+export const ROLES: PortalRole[] = ["ADMIN", "CSR", "CUSTOMER", "DRIVER", "LOGGER"];
 
 // Roles allowed to customize this instance's CMS branding and manage staff
 // accounts (CSR/Driver). Customer accounts are self-registered, not
@@ -26,10 +27,11 @@ export const CAN_MANAGE_DELIVERIES: PortalRole[] = ["ADMIN", "DRIVER"];
 // canManageDeliveries).
 export const CAN_ASSIGN_DELIVERIES: PortalRole[] = ["ADMIN", "CSR"];
 
-// Roles allowed to browse the packages list. Admin/CSR see every package
-// for this tenant; Drivers see only packages assigned to them (enforced
-// by the query, not this check) — Customers already have "My Shipments".
-export const CAN_VIEW_PACKAGES: PortalRole[] = ["ADMIN", "CSR", "DRIVER"];
+// Roles allowed to browse the packages list. Admin/CSR/Logger see every
+// package for this tenant; Drivers see only packages assigned to them
+// (enforced by the query, not this check) — Customers already have "My
+// Shipments".
+export const CAN_VIEW_PACKAGES: PortalRole[] = ["ADMIN", "CSR", "DRIVER", "LOGGER"];
 
 export function canManagePortal(role: PortalRole | undefined | null): boolean {
   return !!role && CAN_MANAGE_PORTAL.includes(role);
@@ -93,10 +95,13 @@ export const EDITABLE_PACKAGE_FIELDS = [
 export type EditablePackageField = (typeof EDITABLE_PACKAGE_FIELDS)[number];
 
 // Which package fields a role may change from /packages' edit modal.
-// Admin: everything, including reassigning the customer. CSR: status/
-// weight/pieces plus customer/rate/cost/payment (support & billing
-// corrections). Driver: status only. Customer never reaches this — no
-// edit access at all.
+// Admin: everything, including reassigning the customer. CSR: payment
+// status only — a billing correction, not a package-details edit; they no
+// longer touch status/weight/rate/cost/customer (moved to Logger below).
+// Logger: package details (status/type/weight/pieces/description/
+// declared value/customer) but no billing fields — a warehouse-adjacent
+// editor, not support/billing staff. Driver: status only. Customer never
+// reaches this — no edit access at all.
 export function editablePackageFields(role: PortalRole | undefined | null): EditablePackageField[] {
   switch (role) {
     case "ADMIN":
@@ -114,16 +119,16 @@ export function editablePackageFields(role: PortalRole | undefined | null): Edit
         "amountPaid",
       ];
     case "CSR":
+      return ["paymentStatus"];
+    case "LOGGER":
       return [
         "status",
+        "packageType",
         "weightLbs",
         "pieces",
+        "description",
         "declaredValue",
         "customerId",
-        "rate",
-        "cost",
-        "paymentStatus",
-        "amountPaid",
       ];
     case "DRIVER":
       return ["status"];
@@ -150,6 +155,7 @@ export function homeRouteForRole(role: PortalRole): string {
     case "ADMIN":
     case "CSR":
     case "DRIVER":
+    case "LOGGER":
       return "/packages";
     case "CUSTOMER":
     default:

@@ -20,6 +20,7 @@ export default async function PackageLabelPage({
       trackingNumber: true,
       description: true,
       weightLbs: true,
+      receivedAt: true,
       company: { select: { name: true } },
       customer: { select: { name: true, customerCode: true } },
     },
@@ -34,6 +35,7 @@ export default async function PackageLabelPage({
       description={pkg.description}
       companyName={pkg.company?.name ?? null}
       weightLbs={pkg.weightLbs}
+      receivedAt={pkg.receivedAt?.toISOString() ?? null}
     />
   );
 }

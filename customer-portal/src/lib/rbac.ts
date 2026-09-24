@@ -72,12 +72,58 @@ export function canViewReports(role: PortalRole | undefined | null): boolean {
 
 // Roles allowed to use the fee calculator (/fee-calculator) to generate a
 // fee for a package from admin-configured fee tiers. Managing the tiers
-// themselves (/admin/fees) stays ADMIN-only, via canManagePortal.
-export const CAN_USE_FEE_CALCULATOR: PortalRole[] = ["ADMIN", "CSR"];
+// themselves (/admin/fees) stays ADMIN-only, via canManagePortal. CSR
+// doesn't touch this — their only billing lever is paymentStatus.
+export const CAN_USE_FEE_CALCULATOR: PortalRole[] = ["ADMIN", "LOGGER"];
 
 export function canUseFeeCalculator(role: PortalRole | undefined | null): boolean {
   return !!role && CAN_USE_FEE_CALCULATOR.includes(role);
 }
+
+// Jamaica Customs Agency duty/fee line items a Logger can enter once a
+// package's actual customs charges are known — see the comment on
+// Package.declaredValue in ../../api/prisma/schema.prisma (this table is
+// shared between api and admin the same way Role/User are). Each is a
+// PERCENTAGE of the package's declaredValue (e.g. entering 5 means 5%),
+// not a flat dollar amount — see dutyAmount() below for the dollar
+// conversion, used consistently by PackageEditModal, the shipment detail
+// page, and both apps' invoicePdf.ts. PackageEditModal only allows
+// entering these once declaredValue is at least $100, mirroring
+// https://jca.gov.jm/business/duties-and-taxes/'s own de-minimis idea.
+export const DUTY_FIELDS = [
+  "dutyImportDuty",
+  "dutyStampDuty",
+  "dutyAdditionalStampDuty",
+  "dutyGct",
+  "dutySct",
+  "dutyStandardComplianceFee",
+  "dutyEnvironmentalLevy",
+  "dutyCustomsAdminFee",
+] as const;
+export const DUTY_FIELD_LABELS: Record<(typeof DUTY_FIELDS)[number], string> = {
+  dutyImportDuty: "Import Duty",
+  dutyStampDuty: "Stamp Duty",
+  dutyAdditionalStampDuty: "Additional Stamp Duty",
+  dutyGct: "General Consumption Tax (GCT)",
+  dutySct: "Special Consumption Tax (SCT)",
+  dutyStandardComplianceFee: "Standard Compliance Fee",
+  dutyEnvironmentalLevy: "Environmental Levy",
+  dutyCustomsAdminFee: "Customs Administrative Fee",
+};
+
+// Converts one duty's stored percentage into a dollar amount against the
+// package's declared value — null (not applicable) and a missing/zero
+// declared value both yield 0 rather than throwing, since callers sum
+// this across every duty field regardless of whether each is set.
+export function dutyAmount(percentage: number | null, declaredValue: number | null): number {
+  if (percentage == null || declaredValue == null) return 0;
+  return (declaredValue * percentage) / 100;
+}
+
+// The declared-value floor below which duties don't apply — matches the
+// "packages valued under USD $100 disable duties" rule (see
+// PackageEditModal's duty section).
+export const DUTY_MIN_DECLARED_VALUE = 100;
 
 export const EDITABLE_PACKAGE_FIELDS = [
   "status",
@@ -91,6 +137,7 @@ export const EDITABLE_PACKAGE_FIELDS = [
   "cost",
   "paymentStatus",
   "amountPaid",
+  ...DUTY_FIELDS,
 ] as const;
 export type EditablePackageField = (typeof EDITABLE_PACKAGE_FIELDS)[number];
 
@@ -99,9 +146,12 @@ export type EditablePackageField = (typeof EDITABLE_PACKAGE_FIELDS)[number];
 // status only — a billing correction, not a package-details edit; they no
 // longer touch status/weight/rate/cost/customer (moved to Logger below).
 // Logger: package details (status/type/weight/pieces/description/
-// declared value/customer) but no billing fields — a warehouse-adjacent
-// editor, not support/billing staff. Driver: status only. Customer never
-// reaches this — no edit access at all.
+// declared value/customer), shipping rate/cost (looked up from
+// ShippingRate weight tiers — see PackageEditModal's "Look up rate from
+// shipping rates"), and customs duties — everything that feeds the
+// package's total amount to pay — but not paymentStatus/amountPaid
+// themselves, which stay CSR/Admin territory. Driver: status only.
+// Customer never reaches this — no edit access at all.
 export function editablePackageFields(role: PortalRole | undefined | null): EditablePackageField[] {
   switch (role) {
     case "ADMIN":
@@ -117,6 +167,7 @@ export function editablePackageFields(role: PortalRole | undefined | null): Edit
         "cost",
         "paymentStatus",
         "amountPaid",
+        ...DUTY_FIELDS,
       ];
     case "CSR":
       return ["paymentStatus"];
@@ -129,6 +180,9 @@ export function editablePackageFields(role: PortalRole | undefined | null): Edit
         "description",
         "declaredValue",
         "customerId",
+        "rate",
+        "cost",
+        ...DUTY_FIELDS,
       ];
     case "DRIVER":
       return ["status"];

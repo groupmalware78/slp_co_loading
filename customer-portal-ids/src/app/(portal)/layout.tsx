@@ -22,7 +22,7 @@ export default async function PortalLayout({
   ]);
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden print:h-auto print:overflow-visible">
       <GradientBackdrop
         gradientFrom={settings.gradientFrom}
         gradientVia={settings.gradientVia}
@@ -34,8 +34,8 @@ export default async function PortalLayout({
         logoEmoji={settings.logoEmoji}
         logoUrl={settings.logoUrl}
       />
-      <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-5xl">{children}</div>
+      <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-8 sm:px-6 lg:px-8 print:h-auto print:overflow-visible print:px-0 print:py-0">
+        <div className="mx-auto max-w-5xl print:max-w-none">{children}</div>
       </main>
     </div>
   );

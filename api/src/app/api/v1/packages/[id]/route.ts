@@ -57,6 +57,14 @@ const patchSchema = z.object({
   cost: z.coerce.number().min(0, "Cost must be 0 or more").optional().nullable(),
   paymentStatus: z.enum(PAYMENT_STATUS_VALUES).optional(),
   amountPaid: z.coerce.number().min(0, "Amount paid must be 0 or more").optional().nullable(),
+  dutyImportDuty: z.coerce.number().min(0, "Duty percentage must be 0 or more").optional().nullable(),
+  dutyStampDuty: z.coerce.number().min(0, "Duty percentage must be 0 or more").optional().nullable(),
+  dutyAdditionalStampDuty: z.coerce.number().min(0, "Duty percentage must be 0 or more").optional().nullable(),
+  dutyGct: z.coerce.number().min(0, "Duty percentage must be 0 or more").optional().nullable(),
+  dutySct: z.coerce.number().min(0, "Duty percentage must be 0 or more").optional().nullable(),
+  dutyStandardComplianceFee: z.coerce.number().min(0, "Duty percentage must be 0 or more").optional().nullable(),
+  dutyEnvironmentalLevy: z.coerce.number().min(0, "Duty percentage must be 0 or more").optional().nullable(),
+  dutyCustomsAdminFee: z.coerce.number().min(0, "Duty percentage must be 0 or more").optional().nullable(),
   changedByLabel: z.string().trim().min(1).optional(),
 });
 
@@ -95,6 +103,14 @@ export async function PATCH(
     cost,
     paymentStatus,
     amountPaid,
+    dutyImportDuty,
+    dutyStampDuty,
+    dutyAdditionalStampDuty,
+    dutyGct,
+    dutySct,
+    dutyStandardComplianceFee,
+    dutyEnvironmentalLevy,
+    dutyCustomsAdminFee,
     changedByLabel,
   } = parsed.data;
 
@@ -117,6 +133,14 @@ export async function PATCH(
   if (cost !== undefined) data.cost = cost;
   if (paymentStatus !== undefined) data.paymentStatus = paymentStatus;
   if (amountPaid !== undefined) data.amountPaid = amountPaid;
+  if (dutyImportDuty !== undefined) data.dutyImportDuty = dutyImportDuty;
+  if (dutyStampDuty !== undefined) data.dutyStampDuty = dutyStampDuty;
+  if (dutyAdditionalStampDuty !== undefined) data.dutyAdditionalStampDuty = dutyAdditionalStampDuty;
+  if (dutyGct !== undefined) data.dutyGct = dutyGct;
+  if (dutySct !== undefined) data.dutySct = dutySct;
+  if (dutyStandardComplianceFee !== undefined) data.dutyStandardComplianceFee = dutyStandardComplianceFee;
+  if (dutyEnvironmentalLevy !== undefined) data.dutyEnvironmentalLevy = dutyEnvironmentalLevy;
+  if (dutyCustomsAdminFee !== undefined) data.dutyCustomsAdminFee = dutyCustomsAdminFee;
 
   try {
     const updated = await prisma.package.update({

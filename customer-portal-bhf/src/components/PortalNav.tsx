@@ -184,7 +184,7 @@ export function PortalNav({
   ].filter((l) => l.show);
 
   return (
-    <aside className="flex h-screen w-60 shrink-0 flex-col border-r border-slate-200 bg-white">
+    <aside className="flex h-screen w-60 shrink-0 flex-col border-r border-slate-200 bg-white print:hidden">
       <Link
         href="/"
         className="flex items-center gap-2 border-b border-slate-200 px-4 py-4 text-sm font-semibold text-slate-900"

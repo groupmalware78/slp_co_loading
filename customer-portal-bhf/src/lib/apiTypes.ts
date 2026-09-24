@@ -50,6 +50,14 @@ export interface Package {
   amountPaid: number | null;
   description: string | null;
   declaredValue: number | null;
+  dutyImportDuty: number | null;
+  dutyStampDuty: number | null;
+  dutyAdditionalStampDuty: number | null;
+  dutyGct: number | null;
+  dutySct: number | null;
+  dutyStandardComplianceFee: number | null;
+  dutyEnvironmentalLevy: number | null;
+  dutyCustomsAdminFee: number | null;
   calculatedFee: number | null;
   calculatedFeeBasis: FeeBasis | null;
   calculatedFeeAt: string | null;

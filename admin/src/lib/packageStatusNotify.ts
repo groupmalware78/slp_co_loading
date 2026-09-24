@@ -22,6 +22,15 @@ interface NotifyPackage {
   amountPaid: number | null;
   calculatedFee: number | null;
   calculatedFeeBasis: string | null;
+  declaredValue: number | null;
+  dutyImportDuty: number | null;
+  dutyStampDuty: number | null;
+  dutyAdditionalStampDuty: number | null;
+  dutyGct: number | null;
+  dutySct: number | null;
+  dutyStandardComplianceFee: number | null;
+  dutyEnvironmentalLevy: number | null;
+  dutyCustomsAdminFee: number | null;
   companyId: string | null;
   customer: { name: string; email: string; customerCode: string | null } | null;
 }
@@ -53,6 +62,15 @@ export async function notifyPackageStatusChange(pkg: NotifyPackage, toStatus: st
           amountPaid: pkg.amountPaid,
           calculatedFee: pkg.calculatedFee,
           calculatedFeeBasis: pkg.calculatedFeeBasis,
+          declaredValue: pkg.declaredValue,
+          dutyImportDuty: pkg.dutyImportDuty,
+          dutyStampDuty: pkg.dutyStampDuty,
+          dutyAdditionalStampDuty: pkg.dutyAdditionalStampDuty,
+          dutyGct: pkg.dutyGct,
+          dutySct: pkg.dutySct,
+          dutyStandardComplianceFee: pkg.dutyStandardComplianceFee,
+          dutyEnvironmentalLevy: pkg.dutyEnvironmentalLevy,
+          dutyCustomsAdminFee: pkg.dutyCustomsAdminFee,
         },
         customer: {
           name: pkg.customer.name,

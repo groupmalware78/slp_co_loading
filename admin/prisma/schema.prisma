@@ -418,6 +418,24 @@ model Package {
   // value-range FeeRange match (see the comment on that model). Distinct
   // from cost, which is the shipping charge, not the package's value.
   declaredValue     Float?
+  // Jamaica Customs Agency duties/fees (https://jca.gov.jm/business/duties-and-taxes/),
+  // entered manually by customer-portal staff (LOGGER/ADMIN — see
+  // editablePackageFields in customer-portal's lib/rbac.ts) once a
+  // package's actual customs charges are known. Each is a PERCENTAGE of
+  // declaredValue, not a flat dollar amount — see dutyAmount() in
+  // customer-portal's lib/rbac.ts and both apps' lib/invoicePdf.ts for
+  // the dollar conversion. Null means "not applicable to this package",
+  // not zero — only non-null duties are summed into the invoice total.
+  // The customer-portal edit UI only allows entering these once
+  // declaredValue is at least $100.
+  dutyImportDuty            Float?
+  dutyStampDuty             Float?
+  dutyAdditionalStampDuty   Float?
+  dutyGct                   Float?
+  dutySct                   Float?
+  dutyStandardComplianceFee Float?
+  dutyEnvironmentalLevy     Float?
+  dutyCustomsAdminFee       Float?
   // Set by ../customer-portal's/../warehouse's fee calculator when staff
   // match this package's weightLbs or declaredValue against a configured
   // FeeRange tier — null until a fee has actually been generated for this

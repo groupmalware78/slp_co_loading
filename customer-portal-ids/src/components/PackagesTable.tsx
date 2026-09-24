@@ -7,6 +7,7 @@ import { formatDateTime } from "@/lib/formatDateTime";
 import { PackageEditModal, type EditablePackageRow } from "./PackageEditModal";
 import { LocatePackageModal } from "./LocatePackageModal";
 import type { EditablePackageField } from "@/lib/rbac";
+import type { PortalRole } from "@/lib/apiTypes";
 import { Pager } from "./Pager";
 
 interface PackageRow extends EditablePackageRow {
@@ -25,11 +26,13 @@ export function PackagesTable({
   editableFields,
   pagination,
   showCalculateDuties,
+  role,
 }: {
   initialPackages: PackageRow[];
   editableFields: EditablePackageField[];
   pagination?: PaginationInfo;
   showCalculateDuties?: boolean;
+  role: PortalRole;
 }) {
   const [packages, setPackages] = useState(initialPackages);
   const [selected, setSelected] = useState<PackageRow | null>(null);
@@ -136,6 +139,7 @@ export function PackagesTable({
           onClose={() => setSelected(null)}
           onUpdated={handleUpdated}
           showCalculateDuties={showCalculateDuties}
+          role={role}
         />
       )}
 

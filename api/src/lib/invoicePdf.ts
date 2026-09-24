@@ -13,6 +13,19 @@ const PAYMENT_STATUS_LABELS: Record<string, string> = {
   PAID: "Paid",
 };
 
+const DUTY_LABELS = {
+  dutyImportDuty: "Import Duty",
+  dutyStampDuty: "Stamp Duty",
+  dutyAdditionalStampDuty: "Additional Stamp Duty",
+  dutyGct: "General Consumption Tax (GCT)",
+  dutySct: "Special Consumption Tax (SCT)",
+  dutyStandardComplianceFee: "Standard Compliance Fee",
+  dutyEnvironmentalLevy: "Environmental Levy",
+  dutyCustomsAdminFee: "Customs Administrative Fee",
+} as const;
+type DutyField = keyof typeof DUTY_LABELS;
+const DUTY_FIELDS = Object.keys(DUTY_LABELS) as DutyField[];
+
 export interface InvoicePdfInput {
   package: {
     trackingNumber: string;
@@ -26,6 +39,15 @@ export interface InvoicePdfInput {
     amountPaid: number | null;
     calculatedFee: number | null;
     calculatedFeeBasis: string | null;
+    declaredValue: number | null;
+    dutyImportDuty: number | null;
+    dutyStampDuty: number | null;
+    dutyAdditionalStampDuty: number | null;
+    dutyGct: number | null;
+    dutySct: number | null;
+    dutyStandardComplianceFee: number | null;
+    dutyEnvironmentalLevy: number | null;
+    dutyCustomsAdminFee: number | null;
   };
   customer: {
     name: string;
@@ -46,6 +68,14 @@ export interface InvoicePdfInput {
 
 function money(n: number | null): string {
   return n == null ? "—" : `$${n.toFixed(2)}`;
+}
+
+// Each duty field is a percentage of the package's declaredValue, not a
+// flat dollar amount — kept in sync with customer-portal's
+// lib/rbac.ts's own dutyAmount().
+function dutyAmount(percentage: number | null, declaredValue: number | null): number {
+  if (percentage == null || declaredValue == null) return 0;
+  return (declaredValue * percentage) / 100;
 }
 
 export async function generateInvoicePdf(input: InvoicePdfInput): Promise<Buffer> {
@@ -109,7 +139,35 @@ export async function generateInvoicePdf(input: InvoicePdfInput): Promise<Buffer
       feeRowBottom = feeRowY + 25;
     }
 
-    doc.y = feeRowBottom;
+    // Jamaica Customs Agency duties (see the comment on Package.declaredValue
+    // in schema.prisma) — one row per non-null duty the logger entered
+    // (shown as a % of declared value, alongside the dollar amount it
+    // works out to), plus a bold total when more than one applies.
+    const applicableDuties = DUTY_FIELDS.filter((field) => pkg[field] != null);
+    const totalDuties = applicableDuties.reduce(
+      (sum, field) => sum + dutyAmount(pkg[field], pkg.declaredValue),
+      0
+    );
+    let dutiesRowBottom = feeRowBottom;
+    if (applicableDuties.length > 0) {
+      let dutyRowY = feeRowBottom + 7;
+      for (const field of applicableDuties) {
+        doc.text(`${DUTY_LABELS[field]} (${pkg[field]}%)`, 50, dutyRowY, { width: 200 });
+        doc.text(money(dutyAmount(pkg[field], pkg.declaredValue)), 480, dutyRowY, { width: 70, align: "right" });
+        dutyRowY += 18;
+      }
+      if (applicableDuties.length > 1) {
+        doc.font("Helvetica-Bold");
+        doc.text("Total duties", 50, dutyRowY, { width: 200 });
+        doc.text(money(totalDuties), 480, dutyRowY, { width: 70, align: "right" });
+        doc.font("Helvetica");
+        dutyRowY += 18;
+      }
+      doc.moveTo(50, dutyRowY).lineTo(550, dutyRowY).stroke();
+      dutiesRowBottom = dutyRowY;
+    }
+
+    doc.y = dutiesRowBottom;
     doc.moveDown(2);
     doc.fontSize(10);
     doc.text(`Tracking number: ${pkg.trackingNumber}`, 50);
@@ -119,8 +177,8 @@ export async function generateInvoicePdf(input: InvoicePdfInput): Promise<Buffer
     if (pkg.amountPaid != null && pkg.amountPaid > 0) {
       doc.text(`Amount paid: ${money(pkg.amountPaid)}`, 50);
     }
-    const total = (pkg.cost ?? 0) + (pkg.calculatedFee ?? 0);
-    if (pkg.cost != null || pkg.calculatedFee != null) {
+    const total = (pkg.cost ?? 0) + (pkg.calculatedFee ?? 0) + totalDuties;
+    if (pkg.cost != null || pkg.calculatedFee != null || applicableDuties.length > 0) {
       const outstanding = Math.max(total - (pkg.amountPaid ?? 0), 0);
       if (outstanding > 0) {
         doc.text(`Balance due: ${money(outstanding)}`, 50);

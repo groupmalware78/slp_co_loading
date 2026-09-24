@@ -8,6 +8,7 @@ import { StatusHistoryTimeline } from "@/components/StatusHistoryTimeline";
 import { InvoiceUpload } from "@/components/InvoiceUpload";
 import { DeliveryRequestCard } from "@/components/DeliveryRequestCard";
 import { formatDateTime } from "@/lib/formatDateTime";
+import { DUTY_FIELDS, dutyAmount } from "@/lib/rbac";
 
 const PACKAGE_TYPE_LABELS = {
   BOX: "Box",
@@ -46,6 +47,16 @@ export default async function ShipmentDetailPage({
     apiClient.deliveryAssignments.list({ packageId: pkg.id }),
   ]);
   const latestDelivery = deliveries[0] ?? null;
+  // Each duty field is a percentage of declaredValue, not a flat dollar
+  // amount — see dutyAmount() in lib/rbac.ts.
+  const totalDuties = DUTY_FIELDS.reduce(
+    (sum, key) => sum + dutyAmount(pkg[key], pkg.declaredValue),
+    0
+  );
+  // Mirrors invoicePdf.ts's own total/balance-due formula (both apps) —
+  // keep in sync with that if either changes.
+  const totalCost = (pkg.cost ?? 0) + (pkg.calculatedFee ?? 0) + totalDuties;
+  const amountDue = Math.max(totalCost - (pkg.amountPaid ?? 0), 0);
 
   return (
     <div className="space-y-4">
@@ -121,8 +132,16 @@ export default async function ShipmentDetailPage({
               <Row label="HAWB Number" value={pkg.hawb} />
               {pkg.cost != null && <Row label="Shipping Cost" value={`$${pkg.cost.toFixed(2)}`} />}
               {pkg.calculatedFee != null && <Row label="Fee" value={`$${pkg.calculatedFee.toFixed(2)}`} />}
+              {totalDuties > 0 && <Row label="Customs Duties" value={`$${totalDuties.toFixed(2)}`} />}
               {pkg.amountPaid != null && pkg.amountPaid > 0 && (
                 <Row label="Amount Paid" value={`$${pkg.amountPaid.toFixed(2)}`} />
+              )}
+              {amountDue > 0 && (
+                <Row
+                  label="Total Amount to Pay"
+                  value={`$${amountDue.toFixed(2)}`}
+                  emphasize
+                />
               )}
               <Row label="Type" value={PACKAGE_TYPE_LABELS[pkg.packageType]} />
               <Row label="Pieces" value={pkg.pieces} />
@@ -194,11 +213,21 @@ export default async function ShipmentDetailPage({
   );
 }
 
-function Row({ label, value }: { label: string; value: string | number }) {
+function Row({
+  label,
+  value,
+  emphasize,
+}: {
+  label: string;
+  value: string | number;
+  emphasize?: boolean;
+}) {
   return (
     <div className="flex items-center justify-between gap-2 py-2 text-sm">
-      <dt className="text-slate-500">{label}</dt>
-      <dd className="font-medium text-slate-900">{value}</dd>
+      <dt className={emphasize ? "font-medium text-slate-900" : "text-slate-500"}>{label}</dt>
+      <dd className={emphasize ? "text-base font-semibold text-teal-700" : "font-medium text-slate-900"}>
+        {value}
+      </dd>
     </div>
   );
 }

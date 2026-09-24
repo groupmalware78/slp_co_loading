@@ -1,8 +1,15 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
-import type { PackageStatus, PackageType, PaymentStatus } from "@/lib/apiTypes";
-import type { EditablePackageField } from "@/lib/rbac";
+import type { PackageStatus, PackageType, PaymentStatus, PortalRole } from "@/lib/apiTypes";
+import {
+  DUTY_FIELDS,
+  DUTY_FIELD_LABELS,
+  DUTY_MIN_DECLARED_VALUE,
+  canUseFeeCalculator,
+  dutyAmount,
+  type EditablePackageField,
+} from "@/lib/rbac";
 
 const PACKAGE_STATUSES: PackageStatus[] = [
   "PENDING",
@@ -71,6 +78,14 @@ export interface EditablePackageRow {
   amountPaid: number | null;
   description: string | null;
   declaredValue: number | null;
+  dutyImportDuty: number | null;
+  dutyStampDuty: number | null;
+  dutyAdditionalStampDuty: number | null;
+  dutyGct: number | null;
+  dutySct: number | null;
+  dutyStandardComplianceFee: number | null;
+  dutyEnvironmentalLevy: number | null;
+  dutyCustomsAdminFee: number | null;
   calculatedFee: number | null;
   calculatedFeeBasis: "WEIGHT" | "VALUE" | null;
   customerId: string | null;
@@ -84,12 +99,14 @@ export function PackageEditModal({
   onClose,
   onUpdated,
   showCalculateDuties,
+  role,
 }: {
   pkg: EditablePackageRow;
   editableFields: EditablePackageField[];
   onClose: () => void;
   onUpdated: (pkg: EditablePackageRow) => void;
   showCalculateDuties?: boolean;
+  role: PortalRole;
 }) {
   const canEdit = (field: EditablePackageField) => editableFields.includes(field);
 
@@ -104,6 +121,14 @@ export function PackageEditModal({
   const [description, setDescription] = useState(pkg.description ?? "");
   const [declaredValue, setDeclaredValue] = useState(pkg.declaredValue != null ? String(pkg.declaredValue) : "");
   const [customerId, setCustomerId] = useState<string>(pkg.customerId ?? "");
+  const [duties, setDuties] = useState<Record<(typeof DUTY_FIELDS)[number], string>>(() => {
+    const init = {} as Record<(typeof DUTY_FIELDS)[number], string>;
+    for (const key of DUTY_FIELDS) {
+      const value = pkg[key];
+      init[key] = value != null ? String(value) : "";
+    }
+    return init;
+  });
   const [customers, setCustomers] = useState<CustomerOption[]>([]);
   const [shippingRates, setShippingRates] = useState<ShippingRateOption[]>([]);
   const [rateLookupMessage, setRateLookupMessage] = useState<string | null>(null);
@@ -111,6 +136,36 @@ export function PackageEditModal({
   const [error, setError] = useState<string | null>(null);
 
   const readOnly = editableFields.length === 0;
+  const canEditDuties = DUTY_FIELDS.some((key) => canEdit(key));
+  const declaredValueNum = declaredValue.trim() ? Number(declaredValue) : null;
+  const dutiesEligible = declaredValueNum != null && declaredValueNum >= DUTY_MIN_DECLARED_VALUE;
+  // Each duty field is a percentage of declaredValue, not a flat dollar
+  // amount — see dutyAmount() in lib/rbac.ts.
+  const totalDuties = DUTY_FIELDS.reduce(
+    (sum, key) =>
+      sum + dutyAmount(duties[key].trim() ? Number(duties[key]) : null, declaredValueNum),
+    0
+  );
+
+  // "Total Amount to Pay" — CSR (disabled/read-only, they only ever touch
+  // paymentStatus), Admin, and Logger; not Driver, who never sees billing.
+  // Mirrors invoicePdf.ts's own total/balance-due formula (both apps) —
+  // keep in sync with that if either changes. Uses the live draft value
+  // for any field the current role can actually edit (so Admin/Logger see
+  // the total update as they type), falling back to the saved package
+  // value for fields they can't touch.
+  const showAmountDue = role === "ADMIN" || role === "CSR" || role === "LOGGER";
+  const amountDueDisabled = role === "CSR";
+  const costForTotal = canEdit("cost") ? (cost.trim() ? Number(cost) : 0) : pkg.cost ?? 0;
+  const amountPaidForTotal = canEdit("amountPaid")
+    ? amountPaid.trim()
+      ? Number(amountPaid)
+      : 0
+    : pkg.amountPaid ?? 0;
+  const amountDue = Math.max(
+    costForTotal + (pkg.calculatedFee ?? 0) + totalDuties - amountPaidForTotal,
+    0
+  );
 
   useEffect(() => {
     if (canEdit("customerId")) {
@@ -174,6 +229,11 @@ export function PackageEditModal({
     if (canEdit("description")) payload.description = description.trim() || null;
     if (canEdit("declaredValue")) payload.declaredValue = declaredValue.trim() ? Number(declaredValue) : null;
     if (canEdit("customerId")) payload.customerId = customerId || null;
+    if (canEditDuties && dutiesEligible) {
+      for (const key of DUTY_FIELDS) {
+        payload[key] = duties[key].trim() ? Number(duties[key]) : null;
+      }
+    }
 
     const res = await fetch(`/api/packages/${pkg.id}`, {
       method: "PATCH",
@@ -499,6 +559,68 @@ export function PackageEditModal({
           </div>
 
           <div className="border-t border-slate-200 pt-4 text-sm">
+            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+              Jamaica Customs Duties
+            </p>
+            {canEditDuties ? (
+              dutiesEligible ? (
+                <>
+                  <div className="mt-2 grid grid-cols-2 gap-3">
+                    {DUTY_FIELDS.map((key) => (
+                      <div key={key}>
+                        <label htmlFor={`edit-${key}`} className="mb-1 block text-xs text-slate-500">
+                          {DUTY_FIELD_LABELS[key]} (%)
+                        </label>
+                        <input
+                          id={`edit-${key}`}
+                          type="number"
+                          inputMode="decimal"
+                          min="0"
+                          step="0.01"
+                          value={duties[key]}
+                          onChange={(e) =>
+                            setDuties((prev) => ({ ...prev, [key]: e.target.value }))
+                          }
+                          className={inputClass}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  {totalDuties > 0 && (
+                    <p className="mt-2 text-slate-700">
+                      Total duties: <span className="font-semibold">${totalDuties.toFixed(2)}</span>{" "}
+                      <span className="text-xs text-slate-400">
+                        (of ${declaredValueNum?.toFixed(2)} declared value)
+                      </span>
+                    </p>
+                  )}
+                </>
+              ) : (
+                <p className="mt-1 text-slate-400">
+                  Enter a declared value of ${DUTY_MIN_DECLARED_VALUE} or more to add duties.
+                </p>
+              )
+            ) : totalDuties > 0 ? (
+              <div className="mt-1 space-y-1 text-slate-700">
+                {DUTY_FIELDS.filter((key) => pkg[key] != null).map((key) => (
+                  <div key={key} className="flex justify-between gap-2">
+                    <span className="text-slate-500">
+                      {DUTY_FIELD_LABELS[key]} ({pkg[key]}%)
+                    </span>
+                    <span>${dutyAmount(pkg[key], pkg.declaredValue).toFixed(2)}</span>
+                  </div>
+                ))}
+                <div className="flex justify-between gap-2 border-t border-slate-100 pt-1 font-semibold text-slate-900">
+                  <span>Total duties</span>
+                  <span>${totalDuties.toFixed(2)}</span>
+                </div>
+              </div>
+            ) : (
+              <p className="mt-1 text-slate-400">None entered.</p>
+            )}
+          </div>
+
+          <div className="border-t border-slate-200 pt-4 text-sm">
             <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Fee</p>
             {pkg.calculatedFee != null ? (
               <p className="mt-1 text-slate-700">
@@ -507,7 +629,7 @@ export function PackageEditModal({
                   ({pkg.calculatedFeeBasis === "VALUE" ? "value-based" : "weight-based"})
                 </span>
               </p>
-            ) : (
+            ) : canUseFeeCalculator(role) ? (
               <p className="mt-1 text-slate-400">
                 Not generated yet — use the{" "}
                 <a href="/fee-calculator" className="text-teal-700 hover:underline">
@@ -515,8 +637,25 @@ export function PackageEditModal({
                 </a>
                 .
               </p>
+            ) : (
+              <p className="mt-1 text-slate-400">Not generated yet.</p>
             )}
           </div>
+
+          {showAmountDue && (
+            <div className="border-t border-slate-200 pt-4 text-sm">
+              <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                Total Amount to Pay
+              </p>
+              {amountDueDisabled ? (
+                <div className={`mt-1 ${readOnlyBoxClass}`}>${amountDue.toFixed(2)}</div>
+              ) : (
+                <p className="mt-1 text-base font-semibold text-teal-700">
+                  ${amountDue.toFixed(2)}
+                </p>
+              )}
+            </div>
+          )}
 
           <div className="border-t border-slate-200 pt-4 text-sm">
             <p className="text-xs font-medium uppercase tracking-wide text-slate-400">

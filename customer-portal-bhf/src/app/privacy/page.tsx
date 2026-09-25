@@ -28,7 +28,7 @@ export default async function PrivacyPage() {
 
       <main className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
         <div className="mb-10">
-          <h1 className="text-2xl font-semibold text-slate-900">Privacy Policy</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Privacy Policy</h1>
           <p className="mt-2 text-sm text-slate-500">Last updated: {new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
         </div>
 

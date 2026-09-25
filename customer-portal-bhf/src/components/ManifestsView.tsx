@@ -53,7 +53,7 @@ export function ManifestsView({
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">Manifests</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Manifests</h1>
           <p className="text-sm text-slate-500">
             Each manifest snapshots every RECEIVED package at the moment it&apos;s generated and
             moves them to SHIPPED.
@@ -63,7 +63,7 @@ export function ManifestsView({
           type="button"
           onClick={handleGenerate}
           disabled={generating}
-          className="rounded-md bg-teal-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-teal-700 disabled:opacity-60"
+          className="rounded-md bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-3 py-2 text-sm font-medium text-white transition hover:from-teal-500 hover:to-cyan-500 disabled:opacity-60"
         >
           {generating ? "Generating…" : "Generate now"}
         </button>
@@ -80,7 +80,7 @@ export function ManifestsView({
           {manifests.map((m) => {
             const expanded = expandedId === m.id;
             return (
-              <div key={m.id} className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+              <div key={m.id} className="overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-md shadow-slate-200/50">
                 <button
                   type="button"
                   onClick={() => setExpandedId(expanded ? null : m.id)}

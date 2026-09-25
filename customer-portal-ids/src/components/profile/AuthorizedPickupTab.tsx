@@ -55,7 +55,7 @@ export function AuthorizedPickupTab({ initialPeople }: { initialPeople: Person[]
   }
 
   const inputClass =
-    "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500";
+    "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-teal-600 focus:outline-none focus:ring-1 focus:ring-teal-600";
 
   return (
     <div className="space-y-5">
@@ -69,7 +69,7 @@ export function AuthorizedPickupTab({ initialPeople }: { initialPeople: Person[]
         <button
           type="button"
           onClick={() => setShowForm((v) => !v)}
-          className="shrink-0 rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800"
+          className="shrink-0 rounded-full bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-4 py-2 text-sm font-medium text-white transition hover:from-teal-500 hover:to-cyan-500"
         >
           {showForm ? "Cancel" : "Add person"}
         </button>
@@ -104,7 +104,7 @@ export function AuthorizedPickupTab({ initialPeople }: { initialPeople: Person[]
           <button
             type="submit"
             disabled={submitting}
-            className="col-span-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800 disabled:opacity-60 sm:col-span-1"
+            className="col-span-full rounded-md bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-4 py-2 text-sm font-medium text-white transition hover:from-teal-500 hover:to-cyan-500 disabled:opacity-60 sm:col-span-1"
           >
             {submitting ? "Adding…" : "Add"}
           </button>

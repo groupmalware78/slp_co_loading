@@ -80,7 +80,7 @@ export function ProfileTabs({
   };
 
   return (
-    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-md shadow-slate-200/50">
       <div
         className="flex overflow-x-auto"
         style={{

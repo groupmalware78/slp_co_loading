@@ -104,7 +104,7 @@ function ChangesModal({ entry, onClose }: { entry: AuditLogEntry; onClose: () =>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+            className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-violet-300 hover:bg-violet-50 hover:text-violet-700"
           >
             Close
           </button>
@@ -153,7 +153,7 @@ export function AuditLogView({
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">Audit Log</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Audit Log</h1>
           <p className="text-sm text-slate-500">
             A record of create, update, and delete actions across the system.
           </p>
@@ -161,7 +161,7 @@ export function AuditLogView({
         <select
           value={entityFilter}
           onChange={(e) => handleFilterChange(e.target.value as EntityType | "")}
-          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
+          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
         >
           <option value="">All entities</option>
           {(Object.entries(ENTITY_LABELS) as [EntityType, string][]).map(([value, label]) => (
@@ -177,7 +177,7 @@ export function AuditLogView({
           <p className="text-sm text-slate-500">No audit log entries yet.</p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-md shadow-slate-200/50">
           <table className="min-w-full divide-y divide-slate-200">
             <thead className="bg-slate-50">
               <tr>

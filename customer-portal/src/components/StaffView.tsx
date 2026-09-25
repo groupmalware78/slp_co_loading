@@ -72,13 +72,13 @@ export function StaffView({ initialStaff }: { initialStaff: StaffRow[] }) {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">Staff</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Staff</h1>
           <p className="text-sm text-slate-500">Manage CSR, driver, and logger accounts for this portal.</p>
         </div>
         <button
           type="button"
           onClick={() => setShowForm((v) => !v)}
-          className="rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white transition hover:bg-slate-800"
+          className="rounded-md bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-3 py-2 text-sm font-medium text-white transition hover:from-teal-500 hover:to-cyan-500"
         >
           {showForm ? "Cancel" : "Add staff"}
         </button>
@@ -133,14 +133,14 @@ export function StaffView({ initialStaff }: { initialStaff: StaffRow[] }) {
           <button
             type="submit"
             disabled={submitting}
-            className="col-span-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800 disabled:opacity-60 sm:col-span-1"
+            className="col-span-full rounded-md bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-4 py-2 text-sm font-medium text-white transition hover:from-teal-500 hover:to-cyan-500 disabled:opacity-60 sm:col-span-1"
           >
             {submitting ? "Creating…" : "Create account"}
           </button>
         </form>
       )}
 
-      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-md shadow-slate-200/50">
         <table className="min-w-full divide-y divide-slate-200">
           <thead className="bg-slate-50">
             <tr>

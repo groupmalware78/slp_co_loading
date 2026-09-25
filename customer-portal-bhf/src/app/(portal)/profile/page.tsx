@@ -35,7 +35,7 @@ export default async function ProfilePage() {
     return (
       <div className="max-w-lg space-y-8">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">Profile</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Profile</h1>
           <p className="text-sm text-slate-500">Manage your account details.</p>
         </div>
 
@@ -72,13 +72,13 @@ export default async function ProfilePage() {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-lg font-semibold text-slate-900">Account Profile</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900">Account Profile</h1>
         <p className="text-sm text-slate-500">Manage your account details.</p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[320px_1fr]">
         {/* Left summary card */}
-        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-md shadow-slate-200/50">
           <div
             className="flex flex-col items-center gap-3 px-6 py-8 text-center"
             style={{

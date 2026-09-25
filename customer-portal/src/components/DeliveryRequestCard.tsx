@@ -119,12 +119,12 @@ export function DeliveryRequestCard({
   }
 
   const inputClass =
-    "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500";
+    "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-teal-600 focus:outline-none focus:ring-1 focus:ring-teal-600";
   const canRequestFresh = !delivery || delivery.status === "FAILED";
   const canEditAddress = delivery && (delivery.status === "REQUESTED" || delivery.status === "ASSIGNED");
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-md shadow-slate-200/50">
       <h2 className="text-sm font-semibold text-slate-900">Delivery</h2>
 
       {error && (
@@ -160,14 +160,14 @@ export function DeliveryRequestCard({
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-md bg-teal-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-teal-700 disabled:opacity-60"
+              className="rounded-md bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-3 py-2 text-sm font-medium text-white transition hover:from-teal-500 hover:to-cyan-500 disabled:opacity-60"
             >
               {submitting ? "Saving…" : "Save address"}
             </button>
             <button
               type="button"
               onClick={() => setEditingAddress(false)}
-              className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+              className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-teal-300 hover:bg-teal-50 hover:text-teal-700"
             >
               Cancel
             </button>
@@ -185,7 +185,7 @@ export function DeliveryRequestCard({
           <button
             type="button"
             onClick={openRequestForm}
-            className="rounded-md bg-teal-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-teal-700"
+            className="rounded-md bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-3 py-2 text-sm font-medium text-white transition hover:from-teal-500 hover:to-cyan-500"
           >
             Request delivery
           </button>
@@ -202,14 +202,14 @@ export function DeliveryRequestCard({
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-md bg-teal-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-teal-700 disabled:opacity-60"
+              className="rounded-md bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-3 py-2 text-sm font-medium text-white transition hover:from-teal-500 hover:to-cyan-500 disabled:opacity-60"
             >
               {submitting ? "Requesting…" : "Submit request"}
             </button>
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+              className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-teal-300 hover:bg-teal-50 hover:text-teal-700"
             >
               Cancel
             </button>

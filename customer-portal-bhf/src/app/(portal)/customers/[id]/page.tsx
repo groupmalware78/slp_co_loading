@@ -61,10 +61,10 @@ export default async function CustomerDetailPage({
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[320px_1fr]">
         <div className="space-y-4">
-          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-md shadow-slate-200/50">
             <div className="flex items-start justify-between gap-2">
               <div>
-                <h1 className="text-lg font-semibold text-slate-900">{customer.name}</h1>
+                <h1 className="text-2xl font-bold tracking-tight text-slate-900">{customer.name}</h1>
                 {customer.customerCode && (
                   <p className="mt-0.5 font-mono text-xs text-slate-500">{customer.customerCode}</p>
                 )}
@@ -93,7 +93,7 @@ export default async function CustomerDetailPage({
           </div>
 
           {portalUser?.addressLine1 && (
-            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-md shadow-slate-200/50">
               <h2 className="text-sm font-semibold text-slate-900">Address</h2>
               <address className="mt-2 not-italic text-sm text-slate-700">
                 <p>{portalUser.addressLine1}</p>
@@ -104,7 +104,7 @@ export default async function CustomerDetailPage({
           )}
         </div>
 
-        <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="rounded-2xl border border-slate-200/70 bg-white shadow-md shadow-slate-200/50">
           <div className="border-b border-slate-100 p-5">
             <h2 className="text-sm font-semibold text-slate-900">Packages</h2>
             <p className="text-xs text-slate-500">{totalPackages} total</p>

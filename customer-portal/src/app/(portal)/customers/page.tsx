@@ -33,7 +33,7 @@ export default async function CustomersPage({
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-lg font-semibold text-slate-900">Customers</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900">Customers</h1>
         <p className="text-sm text-slate-500">Every customer registered to this account.</p>
       </div>
 
@@ -46,7 +46,7 @@ export default async function CustomersPage({
           </p>
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-x-auto rounded-2xl border border-slate-200/70 bg-white shadow-md shadow-slate-200/50">
           <table className="min-w-full divide-y divide-slate-200">
             <thead className="bg-slate-50">
               <tr>

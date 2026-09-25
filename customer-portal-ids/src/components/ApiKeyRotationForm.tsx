@@ -124,7 +124,7 @@ export function ApiKeyRotationForm({ initial }: { initial: ApiKeyStatus }) {
           type="button"
           onClick={handleRotate}
           disabled={rotating || status.apiKeyScope === "READ_ONLY"}
-          className="mt-4 rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800 disabled:opacity-60"
+          className="mt-4 rounded-md bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-4 py-2 text-sm font-medium text-white transition hover:from-teal-500 hover:to-cyan-500 disabled:opacity-60"
         >
           {rotating ? "Rotating…" : "Rotate key"}
         </button>

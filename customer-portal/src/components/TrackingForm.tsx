@@ -83,7 +83,7 @@ export function TrackingForm() {
       )}
 
       {result && (
-        <div className="mt-4 space-y-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="mt-4 space-y-4 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-md shadow-slate-200/50">
           <div className="flex items-center justify-between">
             <span className="font-mono text-sm text-slate-900">{result.trackingNumber}</span>
             <StatusBadge status={result.status} />

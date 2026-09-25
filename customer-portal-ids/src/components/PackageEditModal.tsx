@@ -253,7 +253,7 @@ export function PackageEditModal({
   }
 
   const inputClass =
-    "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500";
+    "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-teal-600 focus:outline-none focus:ring-1 focus:ring-teal-600";
   const readOnlyBoxClass =
     "rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600";
 
@@ -679,7 +679,7 @@ export function PackageEditModal({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+              className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-teal-300 hover:bg-teal-50 hover:text-teal-700"
             >
               {readOnly ? "Close" : "Cancel"}
             </button>
@@ -687,7 +687,7 @@ export function PackageEditModal({
               <button
                 type="submit"
                 disabled={submitting}
-                className="rounded-md bg-teal-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-60"
+                className="rounded-md bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-4 py-2 text-sm font-medium text-white transition hover:from-teal-500 hover:to-cyan-500 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {submitting ? "Saving…" : "Save changes"}
               </button>

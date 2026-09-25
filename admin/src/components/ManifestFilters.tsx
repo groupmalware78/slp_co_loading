@@ -24,7 +24,7 @@ export function ManifestFilters({
   onChange: (filters: ManifestFilterValues) => void;
 }) {
   const selectClass =
-    "rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500";
+    "rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500";
 
   function update<K extends keyof ManifestFilterValues>(key: K, value: string) {
     onChange({ ...filters, [key]: value });

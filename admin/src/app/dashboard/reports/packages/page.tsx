@@ -42,7 +42,7 @@ export default async function PackagesReportPage() {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-lg font-semibold text-slate-900">Reports</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900">Reports</h1>
         <ReportTabs />
       </div>
 
@@ -56,7 +56,7 @@ export default async function PackagesReportPage() {
       <ChartCard title="Package volume" series={volumeSeries} />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-md shadow-slate-200/50">
           <h2 className="text-sm font-semibold text-slate-900">By status</h2>
           <table className="mt-3 min-w-full divide-y divide-slate-100 text-sm">
             <thead>
@@ -76,7 +76,7 @@ export default async function PackagesReportPage() {
           </table>
         </div>
 
-        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-md shadow-slate-200/50">
           <h2 className="text-sm font-semibold text-slate-900">By company</h2>
           <table className="mt-3 min-w-full divide-y divide-slate-100 text-sm">
             <thead>
@@ -109,7 +109,7 @@ export default async function PackagesReportPage() {
 
 function SummaryCard({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-md shadow-slate-200/50">
       <p className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</p>
       <p className="mt-1 text-2xl font-semibold text-slate-900">{value}</p>
     </div>

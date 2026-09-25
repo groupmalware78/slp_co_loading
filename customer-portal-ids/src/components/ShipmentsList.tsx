@@ -159,7 +159,7 @@ export function ShipmentsList({ packages }: { packages: Package[] }) {
           <button
             type="button"
             onClick={() => window.print()}
-            className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+            className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:border-teal-300 hover:bg-teal-50 hover:text-teal-700"
           >
             {PRINT_ICON}
             Print
@@ -196,7 +196,7 @@ export function ShipmentsList({ packages }: { packages: Package[] }) {
             <Link
               key={pkg.id}
               href={`/my-shipments/${pkg.id}`}
-              className="block overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:border-teal-300 hover:shadow-md"
+              className="block overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-md shadow-slate-200/50 transition hover:border-teal-300 hover:shadow-lg"
             >
               <div className="flex items-start justify-between gap-2 p-4">
                 <StatusBadge status={pkg.status} />
@@ -285,7 +285,7 @@ export function ShipmentsList({ packages }: { packages: Package[] }) {
       </div>
 
       <div
-        className={`overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm print:overflow-visible print:rounded-none print:border-0 print:shadow-none print:[-webkit-print-color-adjust:exact] print:[print-color-adjust:exact] ${
+        className={`overflow-x-auto rounded-2xl border border-slate-200/70 bg-white shadow-md shadow-slate-200/50 print:overflow-visible print:rounded-none print:border-0 print:shadow-none print:[-webkit-print-color-adjust:exact] print:[print-color-adjust:exact] ${
           view === "rows" ? "" : "hidden print:block"
         }`}
       >

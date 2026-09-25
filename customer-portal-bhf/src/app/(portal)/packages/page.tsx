@@ -40,7 +40,7 @@ export default async function PackagesPage({
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-lg font-semibold text-slate-900">Packages</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900">Packages</h1>
         <p className="text-sm text-slate-500">
           {session.user.role === "DRIVER"
             ? "Packages assigned to you for delivery. Click one to update its status."

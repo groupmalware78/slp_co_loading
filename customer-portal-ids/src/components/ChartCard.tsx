@@ -21,7 +21,7 @@ export function ChartCard({
   const [period, setPeriod] = useState<Period>(defaultPeriod);
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-md shadow-slate-200/50">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-sm font-semibold text-slate-900">{title}</h2>
         <div className="flex gap-1 rounded-md bg-slate-100 p-0.5">

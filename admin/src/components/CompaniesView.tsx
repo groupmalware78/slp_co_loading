@@ -239,7 +239,7 @@ export function CompaniesView({ initialCompanies }: { initialCompanies: CompanyR
   }
 
   const inputClass =
-    "rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500";
+    "rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500";
 
   const totalPages = Math.max(Math.ceil(companies.length / PAGE_SIZE), 1);
   const pagedCompanies = useMemo(
@@ -251,13 +251,13 @@ export function CompaniesView({ initialCompanies }: { initialCompanies: CompanyR
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">Freight Forwarder Companies</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Freight Forwarder Companies</h1>
           <p className="text-sm text-slate-500">Partner companies used for co-loading.</p>
         </div>
         <button
           type="button"
           onClick={() => (showForm ? closeForm() : openCreateForm())}
-          className="rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white transition hover:bg-slate-800"
+          className="rounded-md bg-gradient-to-r from-violet-600 to-fuchsia-600 shadow-md shadow-violet-600/20 px-3 py-2 text-sm font-medium text-white transition hover:from-violet-500 hover:to-fuchsia-500"
         >
           {showForm ? "Cancel" : "Add company"}
         </button>
@@ -395,7 +395,7 @@ export function CompaniesView({ initialCompanies }: { initialCompanies: CompanyR
           <button
             type="submit"
             disabled={submitting}
-            className="col-span-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800 disabled:opacity-60 sm:col-span-1"
+            className="col-span-full rounded-md bg-gradient-to-r from-violet-600 to-fuchsia-600 shadow-md shadow-violet-600/20 px-4 py-2 text-sm font-medium text-white transition hover:from-violet-500 hover:to-fuchsia-500 disabled:opacity-60 sm:col-span-1"
           >
             {submitting ? "Saving…" : editingId ? "Save changes" : "Create company"}
           </button>
@@ -407,7 +407,7 @@ export function CompaniesView({ initialCompanies }: { initialCompanies: CompanyR
           <p className="text-sm text-slate-500">No companies added yet.</p>
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-x-auto rounded-2xl border border-slate-200/70 bg-white shadow-md shadow-slate-200/50">
           <table className="min-w-full divide-y divide-slate-200">
             <thead className="bg-slate-50">
               <tr>
@@ -450,7 +450,7 @@ export function CompaniesView({ initialCompanies }: { initialCompanies: CompanyR
                       onChange={(e) =>
                         handleAccessChange(c, { apiKeyScope: e.target.value as "FULL" | "READ_ONLY" })
                       }
-                      className="rounded-md border border-slate-300 bg-white px-2 py-1 text-xs text-slate-700 focus:border-slate-500 focus:outline-none"
+                      className="rounded-md border border-slate-300 bg-white px-2 py-1 text-xs text-slate-700 focus:border-violet-500 focus:outline-none"
                     >
                       <option value="FULL">Full access</option>
                       <option value="READ_ONLY">Read-only</option>
@@ -470,7 +470,7 @@ export function CompaniesView({ initialCompanies }: { initialCompanies: CompanyR
                         )
                       }
                       onBlur={(e) => handleAccessChange(c, { requestsPerMinute: Number(e.target.value) })}
-                      className="w-20 rounded-md border border-slate-300 bg-white px-2 py-1 text-xs text-slate-700 focus:border-slate-500 focus:outline-none"
+                      className="w-20 rounded-md border border-slate-300 bg-white px-2 py-1 text-xs text-slate-700 focus:border-violet-500 focus:outline-none"
                     />
                   </td>
                   <td className="whitespace-nowrap px-4 py-3">
@@ -488,7 +488,7 @@ export function CompaniesView({ initialCompanies }: { initialCompanies: CompanyR
                           )
                         }
                         onBlur={(e) => handleAccessChange(c, { apiKeyRotationDays: Number(e.target.value) })}
-                        className="w-16 rounded-md border border-slate-300 bg-white px-2 py-1 text-xs text-slate-700 focus:border-slate-500 focus:outline-none"
+                        className="w-16 rounded-md border border-slate-300 bg-white px-2 py-1 text-xs text-slate-700 focus:border-violet-500 focus:outline-none"
                       />
                       <span className="text-xs text-slate-400">
                         {c.apiKeyRotationDays === 0 ? "(off)" : "days"}

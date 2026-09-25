@@ -187,13 +187,15 @@ export function PortalNav({
     <aside className="flex h-screen w-60 shrink-0 flex-col border-r border-slate-200 bg-white print:hidden">
       <Link
         href="/"
-        className="flex items-center gap-2 border-b border-slate-200 px-4 py-4 text-sm font-semibold text-slate-900"
+        className="flex items-center gap-2.5 border-b border-slate-200 px-4 py-4 text-sm font-bold tracking-tight text-slate-900"
       >
         {logoUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={logoUrl} alt="" className="h-5 w-5 rounded object-contain" />
+          <img src={logoUrl} alt="" className="h-7 w-7 rounded-lg object-contain shadow-sm" />
         ) : (
-          <span className="text-lg">{logoEmoji}</span>
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-teal-500 to-cyan-500 text-base shadow-md shadow-teal-500/30">
+            {logoEmoji}
+          </span>
         )}
         <span className="truncate">{companyName}</span>
       </Link>
@@ -204,10 +206,10 @@ export function PortalNav({
             key={link.href}
             href={link.href}
             className={clsx(
-              "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition",
+              "flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition",
               pathname.startsWith(link.href)
-                ? "bg-teal-600 text-white"
-                : "text-slate-600 hover:bg-slate-100"
+                ? "bg-gradient-to-r from-teal-600 to-cyan-600 text-white shadow-md shadow-teal-600/30"
+                : "text-slate-600 hover:bg-teal-50 hover:text-teal-700"
             )}
           >
             {link.icon}
@@ -229,7 +231,7 @@ export function PortalNav({
         </Link>
         <button
           onClick={() => signOut({ callbackUrl: "/login" })}
-          className="mt-3 w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100"
+          className="mt-3 w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-600 transition hover:border-teal-300 hover:bg-teal-50 hover:text-teal-700"
         >
           Sign out
         </button>

@@ -30,7 +30,7 @@ export default async function ReportsIndexPage() {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-lg font-semibold text-slate-900">Reports</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900">Reports</h1>
         <p className="mt-1 text-sm text-slate-500">Pick a report to view.</p>
       </div>
 
@@ -39,7 +39,7 @@ export default async function ReportsIndexPage() {
           <Link
             key={card.href}
             href={card.href}
-            className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-teal-300 hover:shadow"
+            className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-md shadow-slate-200/50 transition hover:border-teal-300 hover:shadow-lg"
           >
             <h2 className="text-sm font-semibold text-slate-900">{card.title}</h2>
             <p className="mt-1 text-sm text-slate-500">{card.description}</p>

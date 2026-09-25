@@ -81,7 +81,7 @@ export default async function FinancialReportPage() {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-lg font-semibold text-slate-900">Reports</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900">Reports</h1>
         <ReportTabs />
       </div>
 
@@ -94,7 +94,7 @@ export default async function FinancialReportPage() {
       <ChartCard title="Revenue over time" series={revenueSeries} format="currency" />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-md shadow-slate-200/50">
           <h2 className="text-sm font-semibold text-slate-900">Revenue by company</h2>
           <table className="mt-3 min-w-full divide-y divide-slate-100 text-sm">
             <thead>
@@ -125,7 +125,7 @@ export default async function FinancialReportPage() {
           </table>
         </div>
 
-        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-md shadow-slate-200/50">
           <h2 className="text-sm font-semibold text-slate-900">By payment status</h2>
           <table className="mt-3 min-w-full divide-y divide-slate-100 text-sm">
             <thead>
@@ -148,7 +148,7 @@ export default async function FinancialReportPage() {
         </div>
       </div>
 
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-md shadow-slate-200/50">
         <h2 className="text-sm font-semibold text-slate-900">Top outstanding balances</h2>
         <table className="mt-3 min-w-full divide-y divide-slate-100 text-sm">
           <thead>
@@ -182,7 +182,7 @@ export default async function FinancialReportPage() {
 
 function SummaryCard({ label, value, accent }: { label: string; value: string; accent?: string }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-md shadow-slate-200/50">
       <p className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</p>
       <p className={`mt-1 text-2xl font-semibold ${accent ?? "text-slate-900"}`}>{value}</p>
     </div>

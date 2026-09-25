@@ -30,7 +30,7 @@ export default async function LoginPage() {
               className="mx-auto mb-3 h-12 w-12 rounded-xl"
               textClassName="text-2xl"
             />
-            <h1 className="text-xl font-semibold text-slate-900">{settings.companyName}</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900">{settings.companyName}</h1>
           </Link>
           <p className="mt-1 text-sm text-slate-500">Sign in to your account</p>
         </div>

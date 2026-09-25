@@ -131,7 +131,7 @@ export default async function MyShipmentsPage({
     <div className="space-y-4">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">My Shipments</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">My Shipments</h1>
           <p className="text-sm text-slate-500">
             Shipments linked to {session!.user.email}.
           </p>

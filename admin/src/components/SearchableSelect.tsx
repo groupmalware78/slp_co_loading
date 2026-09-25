@@ -82,7 +82,7 @@ export function SearchableSelect({
         disabled={disabled}
         onClick={() => setOpen((v) => !v)}
         className={clsx(
-          "flex w-full items-center justify-between rounded-md border border-slate-300 bg-white px-3 py-2 text-left text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500",
+          "flex w-full items-center justify-between rounded-md border border-slate-300 bg-white px-3 py-2 text-left text-sm focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500",
           disabled && "cursor-not-allowed bg-slate-50 text-slate-400",
           !disabled && (selected ? "text-slate-900" : "text-slate-400")
         )}
@@ -113,7 +113,7 @@ export function SearchableSelect({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Type to search…"
-              className="w-full rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
+              className="w-full rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
             />
           </div>
           <ul className="max-h-48 overflow-y-auto py-1">

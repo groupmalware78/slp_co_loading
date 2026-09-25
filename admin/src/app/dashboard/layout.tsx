@@ -15,7 +15,7 @@ export default async function DashboardLayout({
   if (!session?.user) redirect("/login");
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-50">
+    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-white to-violet-50">
       <Sidebar user={session.user} />
       <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl">{children}</div>

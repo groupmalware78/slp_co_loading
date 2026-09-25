@@ -13,7 +13,7 @@ export function FaqAccordion({ faqs }: { faqs: FaqEntry[] }) {
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
-    <div className="divide-y divide-slate-200 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+    <div className="divide-y divide-slate-200 overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-md shadow-slate-200/50">
       {faqs.map((faq) => {
         const open = openId === faq.id;
         return (

@@ -113,7 +113,7 @@ export function DeliveryList({
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-md shadow-slate-200/50">
       <table className="min-w-full divide-y divide-slate-200">
         <thead className="bg-slate-50">
           <tr>
@@ -170,7 +170,7 @@ export function DeliveryList({
                           onChange={(e) =>
                             setSelectedDriver((prev) => ({ ...prev, [delivery.id]: e.target.value }))
                           }
-                          className="rounded-md border border-slate-300 bg-white px-2 py-1 text-xs text-slate-700 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                          className="rounded-md border border-slate-300 bg-white px-2 py-1 text-xs text-slate-700 focus:border-teal-600 focus:outline-none focus:ring-1 focus:ring-teal-600"
                         >
                           <option value="">Select driver…</option>
                           {availableDrivers.map((driver) => (

@@ -137,18 +137,18 @@ export function FeeCalculator() {
   }
 
   const inputClass =
-    "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500";
+    "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:outline-none focus:ring-1 focus:ring-teal-600";
 
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-lg font-semibold text-slate-900">Fee Calculator</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900">Fee Calculator</h1>
         <p className="text-sm text-slate-500">
           Find a package, then generate a fee from the configured weight or value tiers.
         </p>
       </div>
 
-      <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="rounded-2xl border border-slate-200/70 bg-white p-4 shadow-md shadow-slate-200/50">
         <label htmlFor="fee-calc-search" className="mb-1 block text-sm font-medium text-slate-700">
           Find a package
         </label>
@@ -165,7 +165,7 @@ export function FeeCalculator() {
             type="button"
             onClick={handleSearch}
             disabled={searching || !query.trim()}
-            className="shrink-0 rounded-md bg-teal-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-60"
+            className="shrink-0 rounded-md bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-4 py-2 text-sm font-medium text-white transition hover:from-teal-500 hover:to-cyan-500 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {searching ? "Searching…" : "Search"}
           </button>
@@ -234,7 +234,7 @@ export function FeeCalculator() {
         ))}
       </div>
 
-      <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="rounded-2xl border border-slate-200/70 bg-white p-4 shadow-md shadow-slate-200/50">
         {error && (
           <div className="mb-3 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
         )}
@@ -263,7 +263,7 @@ export function FeeCalculator() {
             type="button"
             onClick={handleGenerate}
             disabled={!selected || generating || !value.trim() || !matched}
-            className="shrink-0 rounded-md bg-teal-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-60"
+            className="shrink-0 rounded-md bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-4 py-2 text-sm font-medium text-white transition hover:from-teal-500 hover:to-cyan-500 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {generating ? "Generating…" : "Generate Fee"}
           </button>
@@ -292,7 +292,7 @@ export function FeeCalculator() {
         </p>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-md shadow-slate-200/50">
         <table className="min-w-full divide-y divide-slate-200">
           <thead className="bg-slate-50">
             <tr>

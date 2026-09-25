@@ -131,13 +131,13 @@ export function FeesView({
   }
 
   const inputClass =
-    "rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500";
+    "rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:outline-none focus:ring-1 focus:ring-teal-600";
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">Fee Settings</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Fee Settings</h1>
           <p className="text-sm text-slate-500">
             Configure fee tiers used by the fee calculator — one set by weight, one by declared value.
           </p>
@@ -145,7 +145,7 @@ export function FeesView({
         <button
           type="button"
           onClick={() => (showForm ? closeForm() : openCreateForm())}
-          className="rounded-md bg-teal-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-teal-700"
+          className="rounded-md bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-3 py-2 text-sm font-medium text-white transition hover:from-teal-500 hover:to-cyan-500"
         >
           {showForm ? "Cancel" : "Add fee tier"}
         </button>
@@ -229,7 +229,7 @@ export function FeesView({
           <button
             type="submit"
             disabled={submitting}
-            className="col-span-full rounded-md bg-teal-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-teal-700 disabled:opacity-60 sm:col-span-1"
+            className="col-span-full rounded-md bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-4 py-2 text-sm font-medium text-white transition hover:from-teal-500 hover:to-cyan-500 disabled:opacity-60 sm:col-span-1"
           >
             {submitting ? "Saving…" : editingId ? "Save changes" : "Create fee tier"}
           </button>
@@ -241,7 +241,7 @@ export function FeesView({
           <p className="text-sm text-slate-500">No {tab.label.toLowerCase()} fee tiers added yet.</p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-md shadow-slate-200/50">
           <table className="min-w-full divide-y divide-slate-200">
             <thead className="bg-slate-50">
               <tr>

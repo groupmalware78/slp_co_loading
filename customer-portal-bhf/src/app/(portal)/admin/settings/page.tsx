@@ -18,7 +18,7 @@ export default async function AdminSettingsPage() {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-lg font-semibold text-slate-900">Portal Settings</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900">Portal Settings</h1>
         <p className="text-sm text-slate-500">
           Customize this portal&apos;s branding and content.
         </p>

@@ -15,7 +15,7 @@ export default async function ApiKeyPage() {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-lg font-semibold text-slate-900">API Key</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900">API Key</h1>
         <p className="text-sm text-slate-500">
           The credential this deployment uses to talk to the Service-Provider platform.
         </p>

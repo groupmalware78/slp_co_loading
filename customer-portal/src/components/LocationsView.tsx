@@ -124,13 +124,13 @@ export function LocationsView({ initialLocations }: { initialLocations: Location
   }
 
   const inputClass =
-    "rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500";
+    "rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:outline-none focus:ring-1 focus:ring-teal-600";
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">Locations</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Locations</h1>
           <p className="text-sm text-slate-500">
             Branch locations shown to customers, including on the signup form.
           </p>
@@ -138,7 +138,7 @@ export function LocationsView({ initialLocations }: { initialLocations: Location
         <button
           type="button"
           onClick={() => (showForm ? closeForm() : openCreateForm())}
-          className="rounded-md bg-teal-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-teal-700"
+          className="rounded-md bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-3 py-2 text-sm font-medium text-white transition hover:from-teal-500 hover:to-cyan-500"
         >
           {showForm ? "Cancel" : "Add location"}
         </button>
@@ -205,14 +205,14 @@ export function LocationsView({ initialLocations }: { initialLocations: Location
               type="checkbox"
               checked={form.active}
               onChange={(e) => updateField("active", e.target.checked)}
-              className="h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500"
+              className="h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-600"
             />
             Active (visible to customers)
           </label>
           <button
             type="submit"
             disabled={submitting}
-            className="col-span-full rounded-md bg-teal-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-teal-700 disabled:opacity-60 sm:col-span-1"
+            className="col-span-full rounded-md bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-4 py-2 text-sm font-medium text-white transition hover:from-teal-500 hover:to-cyan-500 disabled:opacity-60 sm:col-span-1"
           >
             {submitting ? "Saving…" : editingId ? "Save changes" : "Create location"}
           </button>
@@ -224,7 +224,7 @@ export function LocationsView({ initialLocations }: { initialLocations: Location
           <p className="text-sm text-slate-500">No locations added yet.</p>
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-x-auto rounded-2xl border border-slate-200/70 bg-white shadow-md shadow-slate-200/50">
           <table className="min-w-full divide-y divide-slate-200">
             <thead className="bg-slate-50">
               <tr>

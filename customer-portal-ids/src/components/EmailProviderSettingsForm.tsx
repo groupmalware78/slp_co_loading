@@ -203,7 +203,7 @@ export function EmailProviderSettingsForm({
               type="button"
               onClick={handleTest}
               disabled={testing || !testEmail}
-              className="shrink-0 rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-50"
+              className="shrink-0 rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-teal-300 hover:bg-teal-50 hover:text-teal-700 disabled:opacity-50"
             >
               {testing ? "Sending…" : "Send test"}
             </button>

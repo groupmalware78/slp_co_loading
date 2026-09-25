@@ -81,10 +81,10 @@ export default async function ShipmentDetailPage({
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="space-y-4">
-          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-md shadow-slate-200/50">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <h1 className="text-lg font-semibold text-slate-900">
+                <h1 className="text-2xl font-bold tracking-tight text-slate-900">
                   {pkg.description || "Shipment"}
                 </h1>
                 <p className="mt-1 break-all font-mono text-sm text-slate-500">
@@ -118,7 +118,7 @@ export default async function ShipmentDetailPage({
                   href={`/api/packages/${pkg.id}/invoice`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="shrink-0 rounded-md bg-slate-900 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-slate-800"
+                  className="shrink-0 rounded-md bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-3 py-1.5 text-xs font-medium text-white transition hover:from-teal-500 hover:to-cyan-500"
                 >
                   Download
                 </a>
@@ -126,7 +126,7 @@ export default async function ShipmentDetailPage({
             )}
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-md shadow-slate-200/50">
             <h2 className="text-sm font-semibold text-slate-900">Package Information</h2>
             <dl className="mt-3 divide-y divide-slate-100">
               <Row label="HAWB Number" value={pkg.hawb} />
@@ -193,7 +193,7 @@ export default async function ShipmentDetailPage({
           )}
         </div>
 
-        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-md shadow-slate-200/50">
           <h2 className="text-sm font-semibold text-slate-900">Tracking Information</h2>
           <p className="mt-1 text-xs text-slate-400">
             Follow your shipment&apos;s status from start to delivery.

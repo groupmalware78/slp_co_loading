@@ -79,7 +79,7 @@ export function AddressTab({
   }
 
   const inputClass =
-    "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 disabled:bg-slate-50 disabled:text-slate-500 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500";
+    "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 disabled:bg-slate-50 disabled:text-slate-500 focus:border-teal-600 focus:outline-none focus:ring-1 focus:ring-teal-600";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
@@ -166,14 +166,14 @@ export function AddressTab({
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-full bg-slate-900 px-5 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:opacity-60"
+              className="rounded-full bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-5 py-2 text-sm font-semibold text-white transition hover:from-teal-500 hover:to-cyan-500 disabled:opacity-60"
             >
               {submitting ? "Saving…" : "Update Profile"}
             </button>
             <button
               type="button"
               onClick={cancel}
-              className="rounded-full border border-slate-300 px-5 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50"
+              className="rounded-full border border-slate-300 px-5 py-2 text-sm font-medium text-slate-600 transition hover:border-teal-300 hover:bg-teal-50 hover:text-teal-700"
             >
               Cancel
             </button>

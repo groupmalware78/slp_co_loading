@@ -109,13 +109,13 @@ export function FaqsView({ initialFaqs }: { initialFaqs: FaqRow[] }) {
   }
 
   const inputClass =
-    "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500";
+    "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:outline-none focus:ring-1 focus:ring-teal-600";
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-slate-900">FAQ</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">FAQ</h1>
           <p className="text-sm text-slate-500">
             Shown as an accordion on the public homepage.
           </p>
@@ -123,7 +123,7 @@ export function FaqsView({ initialFaqs }: { initialFaqs: FaqRow[] }) {
         <button
           type="button"
           onClick={() => (showForm ? closeForm() : openCreateForm())}
-          className="rounded-md bg-teal-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-teal-700"
+          className="rounded-md bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-3 py-2 text-sm font-medium text-white transition hover:from-teal-500 hover:to-cyan-500"
         >
           {showForm ? "Cancel" : "Add question"}
         </button>
@@ -177,7 +177,7 @@ export function FaqsView({ initialFaqs }: { initialFaqs: FaqRow[] }) {
                 type="checkbox"
                 checked={form.active}
                 onChange={(e) => updateField("active", e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500"
+                className="h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-600"
               />
               Active (visible to customers)
             </label>
@@ -185,7 +185,7 @@ export function FaqsView({ initialFaqs }: { initialFaqs: FaqRow[] }) {
           <button
             type="submit"
             disabled={submitting}
-            className="rounded-md bg-teal-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-teal-700 disabled:opacity-60"
+            className="rounded-md bg-gradient-to-r from-teal-600 to-cyan-600 shadow-md shadow-teal-600/20 px-4 py-2 text-sm font-medium text-white transition hover:from-teal-500 hover:to-cyan-500 disabled:opacity-60"
           >
             {submitting ? "Saving…" : editingId ? "Save changes" : "Create question"}
           </button>
@@ -199,7 +199,7 @@ export function FaqsView({ initialFaqs }: { initialFaqs: FaqRow[] }) {
       ) : (
         <div className="space-y-2">
           {faqs.map((faq) => (
-            <div key={faq.id} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div key={faq.id} className="rounded-2xl border border-slate-200/70 bg-white p-4 shadow-md shadow-slate-200/50">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">

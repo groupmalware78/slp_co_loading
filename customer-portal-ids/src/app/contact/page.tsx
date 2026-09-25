@@ -37,7 +37,7 @@ export default async function ContactPage() {
 
       <main className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
         <div className="mb-10 text-center">
-          <h1 className="text-2xl font-semibold text-slate-900">Contact Us</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Contact Us</h1>
           <p className="mt-2 text-sm text-slate-500">
             Questions about a shipment, pricing, or your account? Reach out below.
           </p>
@@ -46,7 +46,7 @@ export default async function ContactPage() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1.2fr]">
           <div className="space-y-6">
             {(settings.contactEmail || settings.contactPhone) && (
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-md shadow-slate-200/50">
                 <h2 className="text-sm font-semibold text-slate-900">Get in touch</h2>
                 <dl className="mt-3 space-y-2 text-sm">
                   {settings.contactEmail && (
@@ -69,7 +69,7 @@ export default async function ContactPage() {
               <div className="space-y-3">
                 <h2 className="text-sm font-semibold text-slate-900">Our locations</h2>
                 {locations.map((loc) => (
-                  <div key={loc.id} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                  <div key={loc.id} className="rounded-2xl border border-slate-200/70 bg-white p-4 shadow-md shadow-slate-200/50">
                     <p className="text-sm font-medium text-slate-900">{loc.name}</p>
                     <p className="mt-1 text-sm text-slate-600">{loc.address}</p>
                     <p className="mt-1 text-sm text-slate-600">{formatPhoneDisplay(loc.contactNumber)}</p>

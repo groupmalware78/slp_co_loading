@@ -3,6 +3,11 @@ import type { NextAuthConfig } from "next-auth";
 // Edge-safe base config (no Node-only providers here — see auth.ts for the
 // Credentials provider, which needs bcrypt/Prisma and cannot run in middleware).
 export const authConfig = {
+  // Railway (and any reverse proxy) forwards requests with its own Host, so
+  // Auth.js must trust the forwarded host or it rejects every auth request
+  // with UntrustedHost. Set here rather than via AUTH_TRUST_HOST so it can't
+  // be lost to a missing env var.
+  trustHost: true,
   pages: {
     signIn: "/login",
   },

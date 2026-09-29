@@ -73,10 +73,18 @@ check for how that's enforced.
    npm run db:seed
    ```
 
-   Seeds exactly one account — `admin@freightforwarder.test` / `password123`
-   — enough to log in and create the first real company (which provisions
-   its own Warehouse/customer-portal accounts through the normal flows,
-   not the seed script).
+   Seeds exactly one ADMIN account — locally `admin@yseja.com` /
+   `Password#123` unless `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` are
+   set — enough to log in and create the first real company (which
+   provisions its own Warehouse/customer-portal accounts through the
+   normal flows, not the seed script). It does nothing if an admin
+   already exists.
+
+   In production (`NODE_ENV=production`) the seed has no default login:
+   `SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD` (12+ characters) are
+   required. Deploys never run it automatically — `prisma migrate deploy`
+   only applies schema migrations, none of which insert data — so run it
+   once by hand after the first deploy (see `scripts/deploy-railway.sh`).
 
 5. Start the dev server:
 

@@ -8,6 +8,11 @@ interface RegistrationEmailInput {
   companyCode: string;
   apiKey: string;
   otp: string;
+  // Confirms this contact actually controls the email address before it's
+  // treated as verified (see PortalUser.emailVerified) — points at this
+  // admin app's own /verify-email, not the not-yet-deployed customer-portal
+  // instance, since that deployment doesn't exist yet at registration time.
+  verificationUrl: string;
 }
 
 // Falls back to logging the credentials to the server console when
@@ -24,7 +29,8 @@ export async function sendCompanyRegistrationEmail(
       `[email] RESEND_API_KEY not set — would have emailed ${input.to}:\n` +
         `  Company: ${input.companyName} (${input.companyCode})\n` +
         `  TENANT_API_KEY: ${input.apiKey}\n` +
-        `  Temporary password (OTP): ${input.otp}`
+        `  Temporary password (OTP): ${input.otp}\n` +
+        `  Verify email: ${input.verificationUrl}`
     );
     return { sent: false };
   }
@@ -34,11 +40,13 @@ export async function sendCompanyRegistrationEmail(
   await resend.emails.send({
     from,
     to: input.to,
-    subject: `${input.companyName} is registered — set up your customer portal`,
+    subject: `${input.companyName} is registered — verify your email and set up your customer portal`,
     html: `
       <p>Hi ${input.contactName},</p>
       <p><strong>${input.companyName}</strong> (${input.companyCode}) has been registered.</p>
-      <p>Use these to finish setting up your customer-portal deployment:</p>
+      <p>First, confirm this is your email address:</p>
+      <p><a href="${input.verificationUrl}">Verify email address</a></p>
+      <p>Then use these to finish setting up your customer-portal deployment:</p>
       <ul>
         <li><strong>TENANT_API_KEY</strong> (add this to that deployment's <code>.env</code> as
           <code>TENANT_API_KEY</code> and restart it): <code>${input.apiKey}</code></li>

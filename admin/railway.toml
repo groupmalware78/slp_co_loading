@@ -1,6 +1,6 @@
 [build]
-builder = "NIXPACKS"
-buildCommand = "npm ci && npx prisma generate && npm run build"
+builder = "RAILPACK"
+buildCommand = "npx prisma generate && npm run build"
 watchPatterns = ["/admin/**"]
 
 [deploy]

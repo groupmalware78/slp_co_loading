@@ -17,11 +17,11 @@ export default async function SignupPage() {
           </p>
         </div>
         <SignupForm />
-        <p className="mt-4 text-center text-sm text-slate-500">
+        {/* <p className="mt-4 text-center text-sm text-slate-500">
           <Link href="/login" className="font-medium text-slate-900 hover:underline">
             Back to sign in
           </Link>
-        </p>
+        </p> */}
       </div>
     </div>
   );
